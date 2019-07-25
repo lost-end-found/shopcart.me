@@ -1,33 +1,30 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'
-import App from './App'
-import router from './router'
-import store from './store'
-import firebase from 'firebase'
+import Vue from "vue";
+import App from "./App.vue";
+import router from "@/router";
+import store from "./store";
+import "./registerServiceWorker";
+import firebase from "firebase/app";
+import auth from "firebase/auth";
+import * as firebaseCSS from "firebaseui/dist/firebaseui.css";
+import "./scss/main.scss";
+import Vuebar from 'vuebar';
+import VueTouch from 'vue-touch';
+Vue.use(VueTouch);
 
-import 'normalize.css'
+Vue.use(Vuebar);
 
-Vue.config.productionTip = false
-/* eslint-disable no-new */
+Vue.config.productionTip = false;
 
-var VueTouch = require('vue-touch/dist/vue-touch.js')
-Vue.use(VueTouch, {name: 'v-touch'})
+let app;
 
-let app
-// firebaseApp()
-firebase.auth().onAuthStateChanged(function (user) {
+firebase.auth().onAuthStateChanged(function() {
   if (!app) {
     /* eslint-disable no-new */
     app = new Vue({
-      el: '#app',
+      router,
       store,
-      template: '<App/>',
-      components: { App },
-      router
-    })
+      firebaseCSS,
+      render: h => h(App)
+    }).$mount("#app");
   }
-})
-
-// import '@/assets/fontawesome/js/fontawesome-all.js'
-// import '@fortawesome/fontawesome'
+});

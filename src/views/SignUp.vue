@@ -1,60 +1,74 @@
 <template>
-  <div class="sign-up">
-    <div class="" v-if="code">
-      <p>Let's create a new account !</p>
-      <input type="text" v-model="email" placeholder="Email"><br>
-      <input type="password" v-model="password" placeholder="Password"><br>
-      <button v-on:click="signUp">Sign Up</button>
-      <span>or go back to <router-link to="/login">login</router-link>.</span>
+  <div class="signUp">
+    <div class="signUp_wrapper">
+      <h3>Sign-up/ Login</h3>
+      <div id="firebaseui-auth-container"/>
     </div>
-    <span>or go back to <router-link to="/login">login</router-link>.</span>
   </div>
 </template>
 
 <script>
-  import firebase from 'firebase'
+import firebase from "firebase/app";
+import auth from "firebase/auth";
+import firebaseui from "firebaseui";
 
-  export default {
-    name: 'signUp',
-    data: function () {
-      return {
-        email: '',
-        password: '',
-        code: false
-      }
-    },
-    methods: {
-      signUp: function () {
-        firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
-          (user) => {
-            this.$router.replace('/')
-          },
-          (err) => {
-            alert('Oops. ' + err.message)
-          }
-        )
-      }
-    }
+export default {
+  name: "SignUp",
+  data: function() {
+    return {
+      email: "",
+      password: ""
+    };
+  },
+  mounted() {
+    var uiConfig = {
+      signInSuccessUrl: "/basket",
+      signInOptions: [
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebase.auth.EmailAuthProvider.PROVIDER_ID
+      ]
+    };
+    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+    ui.start(
+      "#firebaseui-auth-container",
+      uiConfig,
+      firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+    );
   }
+};
 </script>
 
-<style scoped>
-  .signUp {
-    margin-top: 40px;
+<style lang="scss" scoped>
+.signUp {
+  height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background: #000;
+  &_wrapper {
+    background: #000;
+    border-radius: 5px;
+    box-shadow: 0 5px 12px 0 rgba(#000, 0.3);
   }
-  input {
-    margin: 10px 0;
-    width: 20%;
-    padding: 15px;
-  }
-  button {
-    margin-top: 10px;
-    width: 10%;
-    cursor: pointer;
-  }
-  span {
-    display: block;
-    margin-top: 20px;
-    font-size: 11px;
-  }
+}
+
+input {
+  margin: 10px 0;
+  width: 20%;
+  padding: 15px;
+}
+
+button {
+  margin-top: 10px;
+  width: 10%;
+  cursor: pointer;
+}
+
+span {
+  display: block;
+  margin-top: 20px;
+  font-size: 11px;
+}
 </style>

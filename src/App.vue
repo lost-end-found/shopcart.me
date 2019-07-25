@@ -1,83 +1,134 @@
 <template>
-<div id="app">
-  <header>
-    <nav-menu></nav-menu>
-    <router-link :to="{ path: '/'}" class="title"><h1>Shopping App</h1></router-link>
-  </header>
-  <main>
-    <router-view class="app-body"></router-view>
-  </main>
-  <footer>
-    <bottom-nav v-show="$route.meta.requiresAuth"></bottom-nav>
-  </footer>
-</div>
+  <div id="app">
+    <header>
+      <router-link
+        :to="{ path: '/' }"
+        class="title">
+        <h1>Shopping App</h1>
+      </router-link>
+    </header>
+    <main>
+      <router-view class="app-body"/>
+    </main>
+    <footer v-if="$route.meta.requiresAuth"><bottom-nav/></footer>
+  </div>
 </template>
-
-<script>
-import CategoriesMenu from './components/CategoriesMenu'
-import BottomNavigation from './components/BottomNavigation'
+<script type="text/javascript">
+import bottomNav from "@/components/bottomFooter";
 
 export default {
-  name: 'app',
   components: {
-    'nav-menu': CategoriesMenu,
-    'bottom-nav': BottomNavigation
+    bottomNav
+  },
+  created() {
+    //do something after creating vue instance
+    this.$store.dispatch("user/UPDATE_USER");
   }
-}
+};
 </script>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css?family=Comfortaa:400,700&amp;subset=greek');
-@import './assets/scss/app';
+@import url("https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700");
+body, html {
+  margin: 0;
+  padding: 0;
+}
+html {
+  overflow-y: hidden;
+}
 #app {
-    font-family: 'Comfortaa', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: #fff;
-    background: #181818;
-    position: fixed;
-    height: 100%;
-    width: 100%;
-    user-select: none;
-    * {
-      font-family: 'Comfortaa', sans-serif;
-    }
-}
-header, footer {
-  position: fixed;
-  height: 60px;
-  background: #2b2b2b;
-  box-shadow: 0 10px 10px rgba(#000, 0.1);
-  z-index: 99;
-  position: relative;
-}
-footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  color: #fff;
-}
-.title {
+  font-family: "Ubuntu Mono", monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  line-height: 60px;
-  text-decoration: none;
-  h1 {
-    margin: 0;
-    color: #fff;
+  * {
+    font-family: "Ubuntu Mono", monospace;
   }
 }
-main {
+header {
   position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   top: 0;
-  overflow: hidden;
-  height: calc(100% - 120px);
+  left: 0;
   width: 100%;
-  margin: 60px 0;
-  z-index: 9;
-}
-.app-body {
-  height: 100%;
-  overflow: auto;
+  height: 60px;
+  background: #000;
 }
 
+header a {
+  font-weight: bold;
+  color: #fff;
+}
+main {
+  .app-body {
+    background: #fff;
+  }
+  padding-top: 60px;
+  // padding-bottom: 60px;
+}
+
+footer {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: #000;
+  color: #fff;
+}
+button {
+  cursor: pointer;
+}
+.vb > .vb-dragger {
+    z-index: 10;
+    width: 12px;
+    margin: 4px;
+    height: calc(100% - 20px);
+    right: 0px;
+}
+
+.vb > .vb-dragger > .vb-dragger-styler {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform: rotate3d(0,0,0,0);
+    transform: rotate3d(0,0,0,0);
+    -webkit-transition:
+        background-color 100ms ease-out,
+        margin 100ms ease-out,
+        height 100ms ease-out;
+    transition:
+        background-color 100ms ease-out,
+        margin 100ms ease-out,
+        height 100ms ease-out;
+    background-color: rgba(#000,.4);
+    margin: 2px;
+    border-radius: 20px;
+    height: calc(100% - 20px);
+    display: block;
+}
+
+.vb.vb-scrolling-phantom > .vb-dragger > .vb-dragger-styler {
+    background-color: rgba(#000,.3);
+}
+
+.vb > .vb-dragger:hover > .vb-dragger-styler {
+    background-color: rgba(#000,1);
+    margin: 0px;
+    height: calc(100% - 20px);
+}
+
+.vb.vb-dragging > .vb-dragger > .vb-dragger-styler {
+    background-color: rgba(#000,1);
+    margin: 0px;
+    height: calc(100% - 20px);
+}
+
+.vb.vb-dragging-phantom > .vb-dragger > .vb-dragger-styler {
+    background-color: rgba(#000,1);
+}
 </style>
