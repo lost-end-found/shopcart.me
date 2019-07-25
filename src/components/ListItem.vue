@@ -1,172 +1,72 @@
 <template lang="html">
-  <div>
-    <div class="item" @click="modal = true">
-      {{thisItem.name}}
-      <div class="modal-container" v-if="modal">
-        <div class="modal">
-          <div class="modal-header">
-            <input type="text" class="name" :placeholder="thisItem.name" v-model="thisItem.name" >
-            </input>
-          </div>
-          <div class="modal-description">
-            <textarea rows="5" type="text" name="" value="" :placeholder="defaultDescription" v-model="thisItem.description"/>
-          </div>
-          <div class="modal-body">
-            <div class="category">
-              {{thisItem.category}}
-              <select v-model="selected" @change="updateCategory(thisItem)">
-                <option disabled value="">Please select one</option>
-                <option v-for="category in categoryNames" :key="category.key">{{category}}</option>
-              </select>
-            </div>
-            <div class="amount">
-              amount: {{thisItem.amount}}
-            </div>
-          </div>
-        </div>
-      </div>
+  <li class="u-flex u-jc-between u-p u-m item u-ai-center">
+    <div class="o-list__item u-4/9 u-text-left">{{ name }}</div>
+    <div class="o-list__item u-5/9 u-flex u-jc-end u-ai-center">
+      <SASButton
+        size="slim"
+        name="button"
+        class="u-mr"
+        @click.native="emitRemove();"
+      >🗑</SASButton
+      >
+      <SASButton
+        v-if="isHomePage"
+        size="slim"
+        @click.native="emitMinus();"
+      >-</SASButton
+      >
+      <span class="u-p">{{ amount }}</span>
+      <SASButton
+        v-if="isHomePage"
+        size="slim"
+        @click.native="emitPlus();"
+      >+</SASButton
+      >
     </div>
-    <div class="modal-overlay" v-if="modal" @click="modal = false, updateItem(thisItem)"/>
-  </div>
+  </li>
 </template>
 
 <script>
-import {
-  firebaseApp
-} from '@/firebase'
-const db = firebaseApp.database()
-var items = db.ref('items')
-var categories = db.ref('categories')
+import SASButton from "@/components/SAS/SASButton";
 
 export default {
-  data: () => ({
-    modal: false,
-    thisItem: [],
-    thisCategories: [],
-    selected: null
-  }),
+  components: {
+    SASButton
+  },
   props: {
-    item: {
+    name: {
+      type: String,
+      required: true
+    },
+    amount: {
+      type: Number,
+      default: null,
+      required: false
     }
   },
   computed: {
-    defaultDescription: function defaultDescription () {
-      if (this.thisItem.description) {
-        return this.thisItem.description
-      } else {
-        return 'description...'
-      }
-    },
-    categoryNames: function categoryNames () {
-      let categories = []
-      for (let i = 0; i < this.thisCategories.length; i++) {
-        categories.push(this.thisCategories[i].url)
-      }
-      return categories
+    isHomePage: function isHomePage() {
+      return this.$route.path === "/basket";
     }
   },
   methods: {
-    updateItem (item) {
-      items.child(item['.key'])
-        .update({
-          name: item.name,
-          description: item.description
-        })
+    emitMinus() {
+      this.$emit("emitMinus");
     },
-    updateCategory (item) {
-      items.child(item['.key'])
-        .update({
-          category: this.selected
-        })
+    emitPlus() {
+      this.$emit("emitPlus");
+    },
+    emitRemove() {
+      this.$emit("emitRemove");
     }
-  },
-  mounted () {
-    // do something after mounting vue instance
-    this.$bindAsObject('thisItem', items.child(this.item['.key']))
-  },
-  created () {
-    this.$bindAsArray('thisCategories', categories)
   }
-}
+};
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .item {
-  padding: 10px 20px;
-  margin: 8px auto;
-  max-width: 35rem;
-  border-radius: 8px;
-  background: #2b2b2b;
-  border: 1px #2b2b2b solid;
-  user-select: none;
-  &:focus, &:active {
-    border: 1px #7e7e7e solid;
-  }
-  .v-select .selected-tag {
-    color: #fff;
-  }
-}
-
-.modal-overlay {
-  z-index: 9;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100%;
-  background: rgba(#fff, 0.35);
-  box-shadow: 0 .5rem .5rem rbga(#000, 0.8)
-}
-.modal-container {
-  position: fixed;
-  z-index: 99;
-  max-width: 35rem;
-  width: 100%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  .modal {
-    background: #2b2b2b;
-    max-width: 35rem;
-    width: 100%;
-    max-width: calc(100% - 2rem);
-    margin: 0 auto;
-    border-radius: .25rem;
-    input, textarea {
-      padding: 1rem;
-      font-family: 'Comfortaa', sans-serif;
-      color: #fff;
-      border: none;
-      background: rgba(#000, 0);
-      width: 100%;
-      background: #2b2b2b;
-      &:focus {
-        background: rgba(#fff, 0.05);
-        outline: none;
-      }
-    }
-    input {
-      font-size: 1.5rem;
-    }
-    .modal-description {
-      opacity: 0.6;
-    }
-    .modal-header, .modal-description {
-      overflow: hidden;
-      border-bottom: 1px rgba(#000, 0.2) solid;
-    }
-    .modal-body {
-      display: flex;
-      justify-content: space-between;
-      padding: 1rem;
-      .category {
-        span {
-          background: rgba(#fff, 0.1);
-          padding: .25rem .5rem;
-          border-radius: 3px;
-        }
-      }
-    }
-  }
+  list-style: none;
+  border: 1px #2c3e50 solid;
+  border-radius: 5px;
 }
 </style>
