@@ -1,18 +1,32 @@
 <template>
-<div id='list'>
-  <div class="" v-if="itemsInBasket > 0">
-    <div v-for="i in itemsGroups" :key="i.key">
-      <div class="category-name"> <span>{{ i }}</span> </div>
-      <div v-for="item in items" :key="item.key">
-        <div class="item" v-if="item.amount > 0 && item.category === i">
-            <span class="name">{{item.name}}</span>
-          <div class="right-align">
-            <span>{{ item.amount }}</span>
+  <div id="list">
+    <div
+      v-if="itemsInBasket > 0"
+      class=""
+    >
+      <div
+        v-for="i in itemsGroups"
+        :key="i.key"
+      >
+        <div class="category-name">
+          <span>{{ i }}</span>
+        </div>
+        <div
+          v-for="item in items"
+          :key="item.key"
+        >
+          <div
+            v-if="item.amount > 0 && item.category === i"
+            class="item"
+          >
+            <span class="name">{{ item.name }}</span>
+            <div class="right-align">
+              <span>{{ item.amount }}</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
     <div v-else>
       No items in the basket
     </div>
@@ -25,7 +39,7 @@ import {
 const db = firebaseApp.database()
 var itemsRef = db.ref('items')
 export default {
-  name: 'list',
+  name: 'List',
   data: () => ({
     items: []
   }),

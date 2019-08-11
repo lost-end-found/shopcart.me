@@ -1,25 +1,74 @@
 <template>
-<div id='shopping-item' class='shopping-area'>
-  <div class='item login' v-for='item in newItems' v-bind:category='item.category' v-if='item.category === $route.params.category'>
-    <v-touch class="vtouch" ref="swiper" v-bind:pan-options="{direction: 'horizontal', pointer: 0, threshold: 0}" v-on:pan="removeItemSwipe" v-bind:uid="(item['.key'])" v-bind:amount='item.amount' v-on:panend="removeStyle">
-      <div class='name-container'>
-        <input v-model="item.name" @keyup.enter="updateItem (item)" @blur="updateItem (item)" placeholder="Add New Item" />
-      </div>
-      <div class="right-align">
-        <div class="button" @click="minus (item)">-</div>
-        <span>{{ item.amount }}</span>
-        <div class="button" @click="plus (item)">+</div>
-      </div>
-    </v-touch>
+  <div
+    id="shopping-item"
+    class="shopping-area"
+  >
+    <div
+      v-for="item in newItems"
+      v-if="item.category === $route.params.category"
+      class="item login"
+      :category="item.category"
+    >
+      <v-touch
+        ref="swiper"
+        class="vtouch"
+        :pan-options="{direction: 'horizontal', pointer: 0, threshold: 0}"
+        :uid="(item['.key'])"
+        :amount="item.amount"
+        @pan="removeItemSwipe"
+        @panend="removeStyle"
+      >
+        <div class="name-container">
+          <input
+            v-model="item.name"
+            placeholder="Add New Item"
+            @keyup.enter="updateItem (item)"
+            @blur="updateItem (item)"
+          >
+        </div>
+        <div class="right-align">
+          <div
+            class="button"
+            @click="minus (item)"
+          >
+            -
+          </div>
+          <span>{{ item.amount }}</span>
+          <div
+            class="button"
+            @click="plus (item)"
+          >
+            +
+          </div>
+        </div>
+      </v-touch>
+    </div>
+    <div
+      v-show="isNewItemFocused"
+      class="focus-overlay"
+    />
+    <div
+      class="addItem-container"
+      :class="{active: isNewItemFocused }"
+    >
+      <input
+        v-show="isNewItemFocused"
+        id="addItem"
+        ref="newItemRef"
+        v-model="newItem"
+        placeholder="Add New Item"
+        @focus="isNewItemFocused = true"
+        @blur="isNewItemFocused = false"
+        @keydown.esc="removeFocus"
+        @keyup.enter="addItem"
+      >
+      <div
+        v-show="!isNewItemFocused"
+        class="addItem-button"
+        @click="isNewItemFocused = true; addFocus()"
+      />
+    </div>
   </div>
-  <div class="focus-overlay" v-show="isNewItemFocused"></div>
-  <div class="addItem-container" :class="{active: isNewItemFocused }">
-    <input id="addItem" ref="newItemRef" v-show="isNewItemFocused" @focus="isNewItemFocused = true" @blur="isNewItemFocused = false" v-model="newItem" @keydown.esc="removeFocus" @keyup.enter="addItem" placeholder="Add New Item" />
-    <div class="addItem-button" v-show="!isNewItemFocused" @click="isNewItemFocused = true; addFocus()"></div>
-  </div>
-
-
-</div>
 </template>
 <script>
 import {
@@ -29,13 +78,16 @@ const db = firebaseApp.database()
 var itemsRef = db.ref('items')
 
 export default {
-  name: 'shopping-item',
+  name: 'ShoppingItem',
 
   data: () => ({
     newItems: [],
     newItem: '',
     isNewItemFocused: false
   }),
+  created () {
+    this.$bindAsArray('newItems', itemsRef)
+  },
   methods: {
     removeFocus () {
       this.$refs.newItemRef.blur()
@@ -106,9 +158,6 @@ export default {
         itemsRef.child(key).remove()
       }
     }
-  },
-  created () {
-    this.$bindAsArray('newItems', itemsRef)
   }
 }
 </script>

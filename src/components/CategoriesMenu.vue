@@ -1,13 +1,46 @@
 <template>
   <div class="navigation">
-    <div class="burger" @click="burgerOpen = !burgerOpen" :class="{active: burgerOpen}">
-      <span></span>
+    <div
+      class="burger"
+      :class="{active: burgerOpen}"
+      @click="burgerOpen = !burgerOpen"
+    >
+      <span />
     </div>
-    <div id="nav-menu" class="menu" v-show="burgerOpen">
-      <div class="burger-overflow" @click="burgerOpen = !burgerOpen"></div>
-      <router-link class="link" :to="{ path: 'categories'}">All Categories</router-link>
-      <router-link class="link" v-for="category in categories" :key="category.key" :to="{path: category.url}">{{ category.url }}<span class="deleteCategory" @click="deleteCategory(category)"></span></router-link>
-      <input v-model="newCategory" type="text" name="" value="" @keydown.enter="addCategory()" placeholder="Add Category">
+    <div
+      v-show="burgerOpen"
+      id="nav-menu"
+      class="menu"
+    >
+      <div
+        class="burger-overflow"
+        @click="burgerOpen = !burgerOpen"
+      />
+      <router-link
+        class="link"
+        :to="{ path: 'categories'}"
+      >
+        All Categories
+      </router-link>
+      <router-link
+        v-for="category in categories"
+        :key="category.key"
+        class="link"
+        :to="{path: category.url}"
+      >
+        {{ category.url }}<span
+          class="deleteCategory"
+          @click="deleteCategory(category)"
+        />
+      </router-link>
+      <input
+        v-model="newCategory"
+        type="text"
+        name=""
+        value=""
+        placeholder="Add Category"
+        @keydown.enter="addCategory()"
+      >
     </div>
   </div>
 </template>
@@ -19,7 +52,7 @@ const db = firebaseApp.database()
 var categories = db.ref('categories')
 
 export default {
-  name: 'nav-menu',
+  name: 'NavMenu',
   data: () => ({
     categories: [],
     category: '',
@@ -27,6 +60,9 @@ export default {
     burgerOpen: false,
     newCategoryShow: false
   }),
+  created () {
+    this.$bindAsArray('categories', categories)
+  },
   methods: {
     addCategory (newCategory) {
       categories.push({
@@ -37,9 +73,6 @@ export default {
     deleteCategory (category) {
       categories.child(category['.key']).remove()
     }
-  },
-  created () {
-    this.$bindAsArray('categories', categories)
   }
 }
 </script>

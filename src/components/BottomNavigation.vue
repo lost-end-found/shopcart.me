@@ -1,21 +1,33 @@
 <template>
   <div id="bottom-nav">
     <div class="mobile-bottom-bar">
-      <router-link active-class class="footer-link" to="/list">
-        <span class='footer-text'>List</span>
+      <router-link
+        active-class
+        class="footer-link"
+        to="/list"
+      >
+        <span class="footer-text">List</span>
       </router-link>
-      <router-link active-class class="footer-link" to="/categories">
-        <span class='footer-text'>To Buy</span>
+      <router-link
+        active-class
+        class="footer-link"
+        to="/categories"
+      >
+        <span class="footer-text">To Buy</span>
       </router-link>
-      <router-link active-class class="footer-link" to="/settings">
-        <span class='footer-text'>Settings</span>
+      <router-link
+        active-class
+        class="footer-link"
+        to="/settings"
+      >
+        <span class="footer-text">Settings</span>
       </router-link>
     </div>
   </div>
 </template>
 <script>
 export default {
-  name: 'bottom-nav',
+  name: 'BottomNav',
   data: () => ({
 
   })

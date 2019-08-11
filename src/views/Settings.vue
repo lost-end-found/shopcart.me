@@ -1,24 +1,28 @@
 <template>
-  <div class="settings"><button @click="logout">Logout</button></div>
+  <div class="settings">
+    <button @click="logout">
+      Logout
+    </button>
+  </div>
 </template>
 
 <script>
-import firebase from "firebase/app";
-import auth from "firebase/auth";
+import firebase from 'firebase/app'
+import auth from 'firebase/auth'
 
 export default {
-  name: "Hello",
+  name: 'Hello',
   methods: {
-    logout: function() {
+    logout: function () {
       firebase
         .auth()
         .signOut()
         .then(() => {
-          this.$router.replace("login");
-        });
+          this.$router.replace('login')
+        })
     }
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

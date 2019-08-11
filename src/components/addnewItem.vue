@@ -14,7 +14,8 @@
       <button
         type="button"
         name="button"
-        @click="addItem(), closeNewItem();">
+        @click="addItem(), closeNewItem();"
+      >
         Add new item
       </button>
     </div>
@@ -22,31 +23,31 @@
 </template>
 
 <script>
-import store from "../store";
-import { db } from "@/firebase";
+import store from '../store'
+import { db } from '@/firebase'
 
 export default {
   data: () => ({
-    addNewItem: ""
+    addNewItem: ''
   }),
-  mounted() {
-    //do something after mounting vue instance
-    this.$refs.NewItem.focus();
+  mounted () {
+    // do something after mounting vue instance
+    this.$refs.NewItem.focus()
   },
   methods: {
-    addItem() {
+    addItem () {
       db.ref(`${store.state.user.user.uid}/items`).push({
         name: this.addNewItem,
-        category: "Uncategorized",
+        category: 'Uncategorized',
         amount: 0
-      });
-      this.addNewItem = "";
+      })
+      this.addNewItem = ''
     },
-    closeNewItem() {
-      this.$emit("closeNewItem");
+    closeNewItem () {
+      this.$emit('closeNewItem')
     }
-  },
-};
+  }
+}
 </script>
 
 <style lang="scss">

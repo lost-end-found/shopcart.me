@@ -12,14 +12,14 @@
 <script>
 
 export default {
-  name: "PDSButton",
+  name: 'PDSButton',
   props: {
     /**
      * The type of button. Available options are ```default, primary, destructive, transparent, success```
      */
     type: {
       type: String,
-      default: "default"
+      default: 'default'
     },
     /**
      * The size of the button. Available options are ```slim```
@@ -47,50 +47,50 @@ export default {
      */
     action: {
       type: String,
-      default: null,
+      default: null
     }
   },
   computed: {
-    classes() {
+    classes () {
       return {
         // Type
-        "c-button": true,
-        "c-button--default": this.type === "default",
-        "c-button--primary": this.type === "primary",
-        "c-button--destructive": this.type === "destructive",
-        "c-button--danger": this.type === "danger",
-        "c-button--success": this.type === "success",
-        "c-button--transparent": this.type === "transparent",
+        'c-button': true,
+        'c-button--default': this.type === 'default',
+        'c-button--primary': this.type === 'primary',
+        'c-button--destructive': this.type === 'destructive',
+        'c-button--danger': this.type === 'danger',
+        'c-button--success': this.type === 'success',
+        'c-button--transparent': this.type === 'transparent',
 
         // Size
-        "c-button--slim": this.size === "slim",
+        'c-button--slim': this.size === 'slim',
 
         // Disabled
-        "is-disabled": this.disabled
-      };
-    },
-    element() {
-      let el = "button";
-      if (this.to) {
-        el = "router-link";
+        'is-disabled': this.disabled
       }
-      return el;
     },
-    computedAction() {
-      let action = "";
+    element () {
+      let el = 'button'
+      if (this.to) {
+        el = 'router-link'
+      }
+      return el
+    },
+    computedAction () {
+      let action = ''
       // If is not a link
       if (!this.to) {
         // If a specific action is defined
         if (this.action) {
-          action = this.action;
+          action = this.action
         } else {
-          action = "button";
+          action = 'button'
         }
       }
-      return action;
+      return action
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

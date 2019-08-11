@@ -2,49 +2,50 @@
   <div>
     <transition-group
       name="list"
-      tag="ul">
+      tag="ul"
+    >
       <listItem
         v-for="item in checkOutItems"
         v-if="item.amount > 0"
+        :key="item"
         :name="item.name"
         :amount="item.amount"
-        :key="item"
         @emitRemove="removeItem(item['.key']);"
       />
     </transition-group>
   </div>
 </template>
 <script>
-import { db } from "@/firebase";
-import store from "../store";
+import { db } from '@/firebase'
+import store from '../store'
 import { mapGetters } from 'vuex'
 
-import listItem from "@/components/listItem";
+import listItem from '@/components/listItem'
 
 export default {
   components: {
-    listItem,
+    listItem
   },
   computed: {
     ...mapGetters({
-      uid: 'user/uid',
+      uid: 'user/uid'
       // ...
     })
   },
-  created() {
-    this.items = db.ref(`${this.uid}/items`);
-    this.$bindAsArray("checkOutItems", this.items);
+  created () {
+    this.items = db.ref(`${this.uid}/items`)
+    this.$bindAsArray('checkOutItems', this.items)
   },
   methods: {
-    removeItem(key) {
+    removeItem (key) {
       db.ref(`${this.uid}/items`)
         .child(key)
         .update({
           amount: 0
-        });
+        })
     }
-  },
-};
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -52,7 +53,6 @@ ul {
   margin: 0;
   padding: 0;
 }
-
 
 .list-enter-active,
 .list-leave-active,

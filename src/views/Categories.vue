@@ -1,6 +1,13 @@
 <template lang="html">
   <section>
-    <list-item v-for="item in items" :item="item" :key="item.key" :name="item.name" :category="item.category" :amount="item.amount"/>
+    <list-item
+      v-for="item in items"
+      :key="item.key"
+      :item="item"
+      :name="item.name"
+      :category="item.category"
+      :amount="item.amount"
+    />
   </section>
 </template>
 
@@ -13,15 +20,15 @@ const db = firebaseApp.database()
 var categories = db.ref('items')
 
 export default {
-  name: 'nav-menu',
+  name: 'NavMenu',
+  components: {
+    ListItem
+  },
   data: () => ({
     items: []
   }),
   created () {
     this.$bindAsArray('items', categories)
-  },
-  components: {
-    ListItem
   }
 }
 </script>

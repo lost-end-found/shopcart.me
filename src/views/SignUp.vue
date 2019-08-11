@@ -2,40 +2,40 @@
   <div class="signUp">
     <div class="signUp_wrapper">
       <h3>Sign-up/ Login</h3>
-      <div id="firebaseui-auth-container"/>
+      <div id="firebaseui-auth-container" />
     </div>
   </div>
 </template>
 
 <script>
-import firebase from "firebase/app";
-import auth from "firebase/auth";
-import firebaseui from "firebaseui";
+import firebase from 'firebase/app'
+import auth from 'firebase/auth'
+import firebaseui from 'firebaseui'
 
 export default {
-  name: "SignUp",
-  data: function() {
+  name: 'SignUp',
+  data: function () {
     return {
-      email: "",
-      password: ""
-    };
+      email: '',
+      password: ''
+    }
   },
-  mounted() {
+  mounted () {
     var uiConfig = {
-      signInSuccessUrl: "/basket",
+      signInSuccessUrl: '/basket',
       signInOptions: [
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
         firebase.auth.EmailAuthProvider.PROVIDER_ID
       ]
-    };
-    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+    }
+    var ui = new firebaseui.auth.AuthUI(firebase.auth())
     ui.start(
-      "#firebaseui-auth-container",
+      '#firebaseui-auth-container',
       uiConfig,
       firebaseui.auth.CredentialHelper.GOOGLE_YOLO
-    );
+    )
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

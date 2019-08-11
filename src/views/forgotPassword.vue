@@ -2,8 +2,20 @@
   <div>
     <section>
       <h3>Forgot your password?</h3>
-      <input type="text" v-model="forgotPasswordinput" name="" @keydown.enter="forgotPassword" value="">
-      <button type="button" name="button" @click="forgotPassword">Give me a new password</button>
+      <input
+        v-model="forgotPasswordinput"
+        type="text"
+        name=""
+        value=""
+        @keydown.enter="forgotPassword"
+      >
+      <button
+        type="button"
+        name="button"
+        @click="forgotPassword"
+      >
+        Give me a new password
+      </button>
       <span>Go back to <router-link :to="{ path: '/login'}">Login</router-link>.</span>
       <span>Create a <router-link :to="{ path: '/sign-up'}">new account</router-link>.</span>
     </section>

@@ -3,28 +3,31 @@
     <header>
       <router-link
         :to="{ path: '/' }"
-        class="title">
+        class="title"
+      >
         <h1>Shopping App</h1>
       </router-link>
     </header>
     <main>
-      <router-view class="app-body"/>
+      <router-view class="app-body" />
     </main>
-    <footer v-if="$route.meta.requiresAuth"><bottom-nav/></footer>
+    <footer v-if="$route.meta.requiresAuth">
+      <bottom-nav />
+    </footer>
   </div>
 </template>
 <script type="text/javascript">
-import bottomNav from "@/components/bottomFooter";
+import bottomNav from '@/components/bottomFooter'
 
 export default {
   components: {
     bottomNav
   },
-  created() {
-    //do something after creating vue instance
-    this.$store.dispatch("user/UPDATE_USER");
+  created () {
+    // do something after creating vue instance
+    this.$store.dispatch('user/UPDATE_USER')
   }
-};
+}
 </script>
 
 <style lang="scss">

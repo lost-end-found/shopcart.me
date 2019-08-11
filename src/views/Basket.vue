@@ -18,9 +18,9 @@
           @panend="removeStyle(item)"
         >
           <listItem
+            :key="item.key"
             :name="item.name"
             :amount="item.amount"
-            :key="item.key"
             @emitMinus="minus(item);"
             @emitPlus="plus(item);"
             @emitRemove="removeItem(item);"
@@ -46,12 +46,12 @@
 
 <script>
 // @ is an alias to /src
-import listItem from "@/components/listItem";
-import addNewItem from "@/components/addNewItem";
-import store from "../store";
+import listItem from '@/components/listItem'
+import addNewItem from '@/components/addNewItem'
+import store from '../store'
 
-import { mapGetters } from 'vuex';
-import { db } from "@/firebase";
+import { mapGetters } from 'vuex'
+import { db } from '@/firebase'
 
 export default {
   components: {
@@ -64,19 +64,18 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      uid: 'user/uid',
+      uid: 'user/uid'
       // ...
     })
   },
-  created() {
-    this.$bindAsArray("items", db.ref(`/${this.uid}/items`));
+  created () {
+    this.$bindAsArray('items', db.ref(`/${this.uid}/items`))
   },
   methods: {
     removeItemSwipe (i) {
-
       if (i.center.x !== 0) {
         var draggableItem = i.target.closest('.v-touch')
-        draggableItem.classList.remove('draggableEnd');
+        draggableItem.classList.remove('draggableEnd')
         draggableItem.classList.add('draggable')
         draggableItem.setAttribute('style', 'transform: translateX(' + (i.deltaX * 0.5) + 'px)')
         if (i.deltaX <= -80) {
@@ -87,7 +86,7 @@ export default {
       }
     },
     removeStyle (i, item) {
-      var $self = this;
+      var $self = this
       var draggableItem = i.target.closest('.v-touch')
       var key = draggableItem.getAttribute('uid')
       var newAmount = draggableItem.getAttribute('amount')
@@ -102,34 +101,34 @@ export default {
             amount: --newAmount
           })
       }
-      draggableItem.classList.add('draggableEnd');
+      draggableItem.classList.add('draggableEnd')
       // if (i.deltaX < -80) {
       //   db.ref(`${this.uid}/items`).child(key).remove()
       // }
     },
-    plus(item) {
+    plus (item) {
       db.ref(`${this.uid}/items`)
-        .child(item[".key"])
+        .child(item['.key'])
         .update({
           amount: ++item.amount
-        });
+        })
     },
-    minus(item) {
+    minus (item) {
       if (item.amount > 0) {
         db.ref(`${this.uid}/items`)
-          .child(item[".key"])
+          .child(item['.key'])
           .update({
             amount: --item.amount
-          });
+          })
       }
     },
-    removeItem(item) {
+    removeItem (item) {
       db.ref(`${this.uid}/items`)
-        .child(item[".key"])
-        .remove();
+        .child(item['.key'])
+        .remove()
     }
-  },
-};
+  }
+}
 </script>
 <style media="screen" lang="scss">
 .basket {

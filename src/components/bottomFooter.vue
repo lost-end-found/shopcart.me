@@ -1,13 +1,19 @@
 <template lang="html">
   <div class="bottom-nav">
-    <router-link to="/checkOut">Check Out</router-link>
-    <router-link to="/basket">Bakset</router-link>
-    <router-link to="/settings">Settings</router-link>
+    <router-link to="/checkOut">
+      Check Out
+    </router-link>
+    <router-link to="/basket">
+      Bakset
+    </router-link>
+    <router-link to="/settings">
+      Settings
+    </router-link>
   </div>
 </template>
 
 <script>
-export default {};
+export default {}
 </script>
 
 <style lang="scss">
