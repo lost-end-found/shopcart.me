@@ -1,4 +1,8 @@
 module.exports = {
+  devServer: {
+    inline: true,
+    hot: true
+  },
   lintOnSave: undefined,
   baseUrl: undefined,
   outputDir: undefined,

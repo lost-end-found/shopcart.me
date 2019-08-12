@@ -5,10 +5,13 @@
   >
     <ul>
       <li
-        v-for="item in items"
-        :key="item.key"
+        v-for="(item, index) in items"
+        :key="index"
       >
         <div
+          v-hammer:pan="onPan"
+          v-hammer:panend="onPanEnd"
+          class="js-item"
           :uid="item['.key']"
           :amount="item.amount"
         >
@@ -71,6 +74,18 @@ export default {
     }
   },
   methods: {
+    onPan (event) {
+      console.log(event)
+      if (event.deltaX < -80) {
+        event.target.closest('.js-item').classList.add('remove')
+      } else {
+        event.target.closest('.js-item').classList.remove('remove')
+      }
+      event.target.closest('.js-item').style.cssText = `transform: translateX(${event.deltaX * 0.5}px)`
+    },
+    onPanEnd (event) {
+      event.target.closest('.js-item').style.cssText = ''
+    },
     plus (item) {
       db.ref(`${this.uid}/items`)
         .child(item['.key'])
@@ -128,26 +143,13 @@ export default {
     }
   }
 }
-.v-touch {
-    &.draggable {
-        transition: background ease 0.2s;
-        &.toRemove {
-            > * {
-              background: #EC5F4A !important;
-            }
-            &::after {
-                position: absolute;
-                right: -32px;
-                top: 0;
-                line-height: 48px;
-                font-size: 28px;
-                font-family: "FontAwesome";
-                content: "\f2ed";
-            }
-        }
-    }
-    &.draggableEnd {
-      transition: all ease 100ms !important;
+.js-item {
+  transition: background ease 0.2s;
+    &.remove {
+      li {
+        background: red;
+      }
+      transition: transform ease 100ms !important;
     }
     span {
         height: 32px;
