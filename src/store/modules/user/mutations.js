@@ -1,8 +1,5 @@
-import firebase from 'firebase/app'
-import auth from 'firebase/auth'
-
-const UPDATE_USER = state => {
-  state.user = firebase.auth().currentUser
+const UPDATE_USER = (state, user) => {
+  state.user = user
 }
 
 export default {

@@ -1,7 +1,7 @@
-const UPDATE_USER = ({ state, commit }) => {
-  commit('UPDATE_USER', state)
-}
+const validate = (context, payload) => new Promise((resolve, reject) => {
+  context.commit('UPDATE_USER', payload)
+})
 
 export default {
-  UPDATE_USER
+  validate
 }

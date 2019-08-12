@@ -9,8 +9,8 @@
 
 <script>
 import firebase from 'firebase/app'
-import auth from 'firebase/auth'
-import firebaseui from 'firebaseui'
+import 'firebase/auth'
+import * as firebaseui from 'firebaseui'
 
 export default {
   name: 'SignUp',

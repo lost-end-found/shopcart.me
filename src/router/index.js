@@ -2,11 +2,11 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Basket from '../views/Basket.vue'
 import Settings from '../views/Settings.vue'
-import checkOut from '../views/checkOut.vue'
+import CheckOut from '../views/CheckOut.vue'
 import SignUp from '@/views/SignUp'
 
-import firebase from 'firebase/app'
-import auth from 'firebase/auth'
+import * as firebase from 'firebase/app'
+import 'firebase/auth'
 
 Vue.use(Router)
 
@@ -33,7 +33,7 @@ let router = new Router({
     {
       path: '/checkout',
       name: 'checkout',
-      component: checkOut,
+      component: CheckOut,
       meta: {
         requiresAuth: true
       }

@@ -8,14 +8,9 @@
         v-for="item in items"
         :key="item.key"
       >
-        <v-touch
-          ref="swiper"
-          :pan-options="{direction: 'horizontal', pointer: 0, threshold: 0}"
+        <div
           :uid="item['.key']"
           :amount="item.amount"
-          class="v-touch"
-          @pan="removeItemSwipe"
-          @panend="removeStyle(item)"
         >
           <listItem
             :key="item.key"
@@ -25,7 +20,7 @@
             @emitPlus="plus(item);"
             @emitRemove="removeItem(item);"
           />
-        </v-touch>
+        </div>
       </li>
     </ul>
     <button
@@ -48,7 +43,6 @@
 // @ is an alias to /src
 import listItem from '@/components/listItem'
 import addNewItem from '@/components/addNewItem'
-import store from '../store'
 
 import { mapGetters } from 'vuex'
 import { db } from '@/firebase'
@@ -65,47 +59,18 @@ export default {
   computed: {
     ...mapGetters({
       uid: 'user/uid'
-      // ...
     })
   },
-  created () {
-    this.$bindAsArray('items', db.ref(`/${this.uid}/items`))
+  watch: {
+    uid: {
+      // call it upon creation too
+      immediate: true,
+      handler (uid) {
+        this.$rtdbBind('items', db.ref(`/${uid}/items`))
+      }
+    }
   },
   methods: {
-    removeItemSwipe (i) {
-      if (i.center.x !== 0) {
-        var draggableItem = i.target.closest('.v-touch')
-        draggableItem.classList.remove('draggableEnd')
-        draggableItem.classList.add('draggable')
-        draggableItem.setAttribute('style', 'transform: translateX(' + (i.deltaX * 0.5) + 'px)')
-        if (i.deltaX <= -80) {
-          draggableItem.classList.add('toRemove')
-        } else {
-          draggableItem.classList.remove('toRemove')
-        }
-      }
-    },
-    removeStyle (i, item) {
-      var $self = this
-      var draggableItem = i.target.closest('.v-touch')
-      var key = draggableItem.getAttribute('uid')
-      var newAmount = draggableItem.getAttribute('amount')
-      draggableItem.setAttribute('style', '')
-      draggableItem.classList.remove('draggable')
-      if (i.deltaX > 30) {
-        this.p
-      }
-      if (i.deltaX < -30 && newAmount > 0) {
-        db.ref(`${this.uid}/items`).child(key)
-          .update({
-            amount: --newAmount
-          })
-      }
-      draggableItem.classList.add('draggableEnd')
-      // if (i.deltaX < -80) {
-      //   db.ref(`${this.uid}/items`).child(key).remove()
-      // }
-    },
     plus (item) {
       db.ref(`${this.uid}/items`)
         .child(item['.key'])

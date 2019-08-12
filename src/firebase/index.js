@@ -1,9 +1,11 @@
 import Vue from 'vue'
-import VueFire from 'vuefire'
-import firebase from 'firebase/app'
-import database from 'firebase/database'
+// import VueFire from 'vuefire'
+import * as firebase from 'firebase/app'
+import 'firebase/database'
 
-Vue.use(VueFire)
+import { rtdbPlugin } from 'vuefire'
+
+Vue.use(rtdbPlugin)
 
 const config = {
   apiKey: 'AIzaSyCs2IdLfd7mDbcPHhsOMY0u_2KZIiwriic',

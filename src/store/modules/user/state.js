@@ -1,5 +1,7 @@
+const defaultState = () => ({
+  user: null
+})
+
 export default {
-  user: {
-    uid: ''
-  }
+  defaultState
 }

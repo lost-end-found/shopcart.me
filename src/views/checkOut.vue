@@ -5,9 +5,9 @@
       tag="ul"
     >
       <listItem
-        v-for="item in checkOutItems"
+        v-for="(item, index) in checkOutItems"
         v-if="item.amount > 0"
-        :key="item"
+        :key="index"
         :name="item.name"
         :amount="item.amount"
         @emitRemove="removeItem(item['.key']);"
@@ -17,7 +17,6 @@
 </template>
 <script>
 import { db } from '@/firebase'
-import store from '../store'
 import { mapGetters } from 'vuex'
 
 import listItem from '@/components/listItem'
@@ -26,15 +25,22 @@ export default {
   components: {
     listItem
   },
+  data: () => ({
+    checkOutItems: []
+  }),
   computed: {
     ...mapGetters({
       uid: 'user/uid'
-      // ...
     })
   },
-  created () {
-    this.items = db.ref(`${this.uid}/items`)
-    this.$bindAsArray('checkOutItems', this.items)
+  watch: {
+    uid: {
+      // call it upon creation too
+      immediate: true,
+      handler (uid) {
+        this.$rtdbBind('checkOutItems', db.ref(`/${uid}/items`))
+      }
+    }
   },
   methods: {
     removeItem (key) {

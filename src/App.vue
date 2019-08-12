@@ -23,10 +23,6 @@ export default {
   components: {
     bottomNav
   },
-  created () {
-    // do something after creating vue instance
-    this.$store.dispatch('user/UPDATE_USER')
-  }
 }
 </script>
 
