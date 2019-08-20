@@ -4,41 +4,49 @@
       name="list"
       tag="ul"
     >
-      <listItem
-        v-for="(item, index) in checkOutItems"
-        v-if="item.amount > 0"
+      <li
+        v-for="(item, index) in items.filter(item => item.amount > 0)"
         :key="index"
-        :name="item.name"
-        :amount="item.amount"
-        @emitRemove="removeItem(item['.key']);"
-      />
+      >
+        <basket-item
+          :key="index"
+          :name="item.name"
+          :amount="item.amount"
+          @emitRemove="removeItem(item['.key']);"
+        />
+      </li>
     </transition-group>
   </div>
 </template>
 <script>
 import { db } from '@/firebase'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
-import listItem from '@/components/listItem'
+import BasketItem from '@/components/BasketItem'
 
 export default {
   components: {
-    listItem
+    BasketItem
   },
   data: () => ({
-    checkOutItems: []
+    items: []
   }),
   computed: {
     ...mapGetters({
       uid: 'user/uid'
+    }),
+    ...mapState({
+      user: 'user'
     })
   },
   watch: {
-    uid: {
+    user: {
       // call it upon creation too
       immediate: true,
-      handler (uid) {
-        this.$rtdbBind('checkOutItems', db.ref(`/${uid}/items`))
+      handler (user) {
+        if (user.user.uid) {
+          this.$rtdbBind('items', db.ref(`/${user.user.uid}/items`))
+        }
       }
     }
   },

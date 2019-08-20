@@ -7,23 +7,18 @@
       <li
         v-for="(item, index) in items"
         :key="index"
+        class="c-list__item"
       >
-        <div
-          v-hammer:pan="onPan"
-          v-hammer:panend="onPanEnd"
-          class="js-item"
-          :uid="item['.key']"
+        <basket-item
+          :key="item.key"
+          :name="item.name"
           :amount="item.amount"
-        >
-          <listItem
-            :key="item.key"
-            :name="item.name"
-            :amount="item.amount"
-            @emitMinus="minus(item);"
-            @emitPlus="plus(item);"
-            @emitRemove="removeItem(item);"
-          />
-        </div>
+          :category="item.category"
+          has-buttons
+          @emitMinus="minus(item);"
+          @emitPlus="plus(item);"
+          @emitRemove="removeItem(item);"
+        />
       </li>
     </ul>
     <button
@@ -44,15 +39,15 @@
 
 <script>
 // @ is an alias to /src
-import listItem from '@/components/listItem'
+import BasketItem from '@/components/BasketItem'
 import addNewItem from '@/components/addNewItem'
 
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import { db } from '@/firebase'
 
 export default {
   components: {
-    listItem,
+    BasketItem,
     addNewItem
   },
   data: () => ({
@@ -62,20 +57,24 @@ export default {
   computed: {
     ...mapGetters({
       uid: 'user/uid'
+    }),
+    ...mapState({
+      user: 'user'
     })
   },
   watch: {
-    uid: {
+    user: {
       // call it upon creation too
       immediate: true,
-      handler (uid) {
-        this.$rtdbBind('items', db.ref(`/${uid}/items`))
+      handler (user) {
+        if (user.user.uid) {
+          this.$rtdbBind('items', db.ref(`/${user.user.uid}/items`))
+        }
       }
     }
   },
   methods: {
     onPan (event) {
-      console.log(event)
       if (event.deltaX < -80) {
         event.target.closest('.js-item').classList.add('remove')
       } else {
@@ -150,12 +149,6 @@ export default {
         background: red;
       }
       transition: transform ease 100ms !important;
-    }
-    span {
-        height: 32px;
-        width: 32px;
-        display: inline-block;
-        text-align: center;
     }
     input {
         color: #fff;

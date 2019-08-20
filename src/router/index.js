@@ -5,6 +5,8 @@ import Settings from '../views/Settings.vue'
 import CheckOut from '../views/CheckOut.vue'
 import SignUp from '@/views/SignUp'
 
+import store from '@/store'
+
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
 
@@ -55,6 +57,7 @@ let router = new Router({
 
 router.beforeEach((to, from, next) => {
   let currentUser = firebase.auth().currentUser
+  store.dispatch('user/validate', currentUser)
   let requiresAuth = to.matched.some(record => record.meta.requiresAuth)
 
   if (requiresAuth && !currentUser) next('login')

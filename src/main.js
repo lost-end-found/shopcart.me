@@ -9,7 +9,13 @@ import * as firebaseCSS from 'firebaseui/dist/firebaseui.css'
 import './scss/main.scss'
 import '@/helpers/hammer.js'
 import Vuebar from 'vuebar'
+import vSelect from 'vue-select'
+
+import 'vue-select/dist/vue-select.css'
+
 Vue.use(Vuebar)
+
+Vue.component('v-select', vSelect)
 
 Vue.config.productionTip = false
 
@@ -23,7 +29,7 @@ firebase.auth().onAuthStateChanged(function (e) {
       router,
       store,
       firebaseCSS,
-      render: h => h(App),
+      render: h => h(App)
     }).$mount('#app')
   }
 })

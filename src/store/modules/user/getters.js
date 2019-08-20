@@ -1,8 +1,5 @@
 const uid = (state) => {
-  if (state.user) {
-    return state.user.uid
-  }
-  return null
+  return state.user ? state.user.uid : null
 }
 
 export default {

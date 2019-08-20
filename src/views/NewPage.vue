@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="">
-    <list-item
+    <basket-item
       v-for="item in items"
       :key="item.key"
       :item="item"
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import ListItem from '@/components/ListItem.vue'
+import BasketItem from '@/components/BasketItem.vue'
 import {
   firebaseApp
 } from '@/firebase'
@@ -21,7 +21,7 @@ var items = db.ref('items')
 
 export default {
   components: {
-    ListItem
+    BasketItem
   },
 
   created () {

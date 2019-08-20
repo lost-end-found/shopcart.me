@@ -1,0 +1,6 @@
+.c-list__item {
+  list-style: none;
+  &:nth-child(even) {
+    background: rgba(#000, 0.01)
+  }
+}

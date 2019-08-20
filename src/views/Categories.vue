@@ -1,6 +1,6 @@
 <template lang="html">
   <section>
-    <list-item
+    <basket-item
       v-for="item in items"
       :key="item.key"
       :item="item"
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import ListItem from '@/components/ListItem.vue'
+import BasketItem from '@/components/BasketItem.vue'
 import {
   firebaseApp
 } from '@/firebase'
@@ -22,7 +22,7 @@ var categories = db.ref('items')
 export default {
   name: 'NavMenu',
   components: {
-    ListItem
+    BasketItem
   },
   data: () => ({
     items: []
