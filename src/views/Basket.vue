@@ -14,6 +14,7 @@
           :name="item.name"
           :amount="item.amount"
           :category="item.category"
+          :item="item"
           has-buttons
           @emitMinus="minus(item);"
           @emitPlus="plus(item);"
@@ -128,7 +129,7 @@ export default {
     border: none;
     position: fixed;
     bottom: 30px;
-    z-index: 10;
+    z-index: 99;
     left: 50%;
     transform: translateX(-50%);
     transition: all ease 0.4s;

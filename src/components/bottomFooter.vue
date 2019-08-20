@@ -9,11 +9,24 @@
     <router-link to="/settings">
       Settings
     </router-link>
+    <a @click="openModal">
+      Modal
+    </a>
   </div>
 </template>
 
 <script>
-export default {}
+import EditItem from '@/components/EditItem.vue'
+
+export default {
+  methods: {
+    openModal () {
+      this.$store.dispatch('modal/addModal', {
+        content: EditItem
+      })
+    }
+  }
+}
 </script>
 
 <style lang="scss">

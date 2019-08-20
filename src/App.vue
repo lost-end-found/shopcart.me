@@ -14,14 +14,17 @@
     <footer v-if="$route.meta.requiresAuth">
       <bottom-nav />
     </footer>
+    <SASModal />
   </div>
 </template>
 <script type="text/javascript">
 import bottomNav from '@/components/bottomFooter'
+import SASModal from '@/components/SAS/SASModal'
 
 export default {
   components: {
-    bottomNav
+    bottomNav,
+    SASModal
   }
 }
 </script>
@@ -31,6 +34,7 @@ export default {
 body, html {
   margin: 0;
   padding: 0;
+  font-family: "Ubuntu Mono", monospace;
 }
 html {
   overflow-y: hidden;

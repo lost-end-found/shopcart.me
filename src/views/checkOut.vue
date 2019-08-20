@@ -6,12 +6,13 @@
     >
       <li
         v-for="(item, index) in items.filter(item => item.amount > 0)"
-        :key="index"
+        :key="`key-${index}`"
       >
         <basket-item
           :key="index"
           :name="item.name"
           :amount="item.amount"
+          has-remove-button
           @emitRemove="removeItem(item['.key']);"
         />
       </li>
@@ -52,7 +53,7 @@ export default {
   },
   methods: {
     removeItem (key) {
-      db.ref(`${this.uid}/items`)
+      db.ref(`${this.user.user.uid}/items`)
         .child(key)
         .update({
           amount: 0

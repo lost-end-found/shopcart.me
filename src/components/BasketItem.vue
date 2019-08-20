@@ -3,11 +3,14 @@
     <div class="o-media">
       <div
         class="o-media__fixed"
-        style="width: 38px"
+        style="width: 44px"
       >
-        <span class="u-p o-type-item">{{ amount }}</span>
+        <span class="o-type-item">{{ amount }}</span>
       </div>
-      <div class="o-media__fluid">
+      <div
+        class="o-media__fluid"
+        @click="editItem(item)"
+      >
         <div class="u-text-left o-type-item">
           {{ name }}
         </div>
@@ -17,24 +20,28 @@
       </div>
       <div class="o-media__fixed">
         <div
-          v-if="hasButtons"
           class="u-flex u-jc-end u-ai-center"
         >
-          <!-- <sas-button
+          <sas-button
+            v-if="hasRemoveButton"
             name="button"
             @click.native="emitRemove();"
           >
-            🗑
-          </sas-button> -->
+            <img
+              style="color: #fff; width: 16px"
+              src="@/assets/icons/trash.svg"
+              alt="trash icon"
+            >
+          </sas-button>
           <sas-button
-            v-if="isHomePage"
+            v-if="hasButtons"
             class="u-mr"
             @click.native="emitMinus();"
           >
             -
           </sas-button>
           <sas-button
-            v-if="isHomePage"
+            v-if="hasButtons"
             @click.native="emitPlus();"
           >
             +
@@ -42,18 +49,22 @@
         </div>
       </div>
     </div>
-    <!--  -->
   </div>
 </template>
 
 <script>
 import SasButton from '@/components/SAS/SASButton'
+import EditItem from '@/components/EditItem'
 
 export default {
   components: {
     SasButton
   },
   props: {
+    item: {
+      type: Object,
+      required: true
+    },
     name: {
       type: String,
       required: true
@@ -69,6 +80,10 @@ export default {
     hasButtons: {
       type: Boolean,
       default: false
+    },
+    hasRemoveButton: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -77,6 +92,14 @@ export default {
     }
   },
   methods: {
+    editItem (item) {
+      this.$store.dispatch('modal/addModal', {
+        content: EditItem,
+        props: {
+          item: item
+        }
+      })
+    },
     emitMinus () {
       this.$emit('emitMinus')
     },
