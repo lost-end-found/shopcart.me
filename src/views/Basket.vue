@@ -53,6 +53,7 @@ export default {
   },
   data: () => ({
     items: [],
+    categories: [],
     newItemIsOpen: false
   }),
   computed: {
@@ -70,6 +71,32 @@ export default {
       handler (user) {
         if (user.user.uid) {
           this.$rtdbBind('items', db.ref(`/${user.user.uid}/items`))
+          db.ref(user.user.uid).child('categories').once('value', function (snapshot) {
+          // if data exists
+            if (snapshot.exists()) {
+              // get the ref (in this case /users/2) and update its contents
+            } else {
+              const defaultCategories = [
+                'Beverages',
+                'Bread/Bakery',
+                'Canned/Jarred Goods',
+                'Dairy',
+                'Dry/Baking Goods',
+                'Frozen Foods',
+                'Meat',
+                'Produce',
+                'Cleaners',
+                'Paper Goods',
+                'Personal Care',
+                'Other'
+              ]
+              defaultCategories.forEach(function (category) {
+                db.ref(`${user.user.uid}/categories`).push({
+                  name: category
+                })
+              })
+            }
+          })
         }
       }
     }

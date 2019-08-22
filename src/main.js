@@ -2,12 +2,11 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from '@/router'
 import store from './store'
-// import './registerServiceWorker'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import * as firebaseCSS from 'firebaseui/dist/firebaseui.css'
 import './scss/main.scss'
-import '@/helpers/hammer.js'
+
 import Vuebar from 'vuebar'
 import vSelect from 'vue-select'
 

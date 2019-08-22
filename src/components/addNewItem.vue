@@ -39,7 +39,8 @@ export default {
       db.ref(`${store.state.user.user.uid}/items`).push({
         name: this.addNewItem,
         category: 'Uncategorized',
-        amount: 0
+        amount: 0,
+        description: ''
       })
       this.addNewItem = ''
     },

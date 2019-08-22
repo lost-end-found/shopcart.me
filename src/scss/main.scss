@@ -34,4 +34,8 @@
 @import 'utilities/transform';
 @import 'utilities/weight';
 
-@import 'components/basket'
+@import 'components/basket';
+
+.vs__dropdown-menu {
+  max-height: 100px !important;
+}

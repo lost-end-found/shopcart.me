@@ -132,7 +132,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  transition: all ease 400ms;
+  transition: all ease 300ms;
 }
 .has-modalOpen {
   .PDS-Modal-Dialog__Container {
@@ -150,7 +150,6 @@ export default {
   outline: none;
   position: fixed;
   overflow: auto;
-  // top: 0;
   right: 0;
   bottom: 0;
   left: 0;
@@ -165,37 +164,13 @@ export default {
   position: relative;
 }
 
-.slide-enter-active {
-   -moz-transition-duration: 0.3s;
-   -webkit-transition-duration: 0.3s;
-   -o-transition-duration: 0.3s;
-   transition-duration: 0.3s;
-   -moz-transition-timing-function: ease-out;
-   -webkit-transition-timing-function: ease-out;
-   -o-transition-timing-function: ease-out;
-   transition-timing-function: ease-out;
-}
-
-.slide-leave-active {
-   -moz-transition-duration: 0.3s;
-   -webkit-transition-duration: 0.3s;
-   -o-transition-duration: 0.3s;
-   transition-duration: 0.3s;
-   -moz-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-   -webkit-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-   -o-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-   transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-}
-
 .slide-enter-to, .slide-leave {
-   max-height: 100px;
+   bottom: 0 !important;
    overflow: hidden;
 }
 .slide-enter, .slide-leave-to {
    overflow: hidden;
-   max-height: 0;
-}
-.slide-leave-active, .slide-enter {
-  bottom: 0;
+   transition: all ease 300ms;
+   bottom: -100% !important;
 }
 </style>
