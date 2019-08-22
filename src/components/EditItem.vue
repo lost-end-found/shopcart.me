@@ -71,6 +71,8 @@ export default {
   mounted () {
     this.$rtdbBind('categories', db.ref(`/${this.$store.state.user.user.uid}/categories`))
     this.name = this.item.name
+    this.selectedCategory = this.item.category
+
     if (this.item.description) {
       this.description = this.item.description
     }
