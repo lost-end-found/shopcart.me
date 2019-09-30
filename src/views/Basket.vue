@@ -149,6 +149,7 @@ export default {
     left: 50%;
     transform: translateX(-50%);
     transition: all ease-out  200ms;
+    background-color: #fff;
     box-shadow: 1px 0px 10px 5px rgba(#000, 0.1);
     img {
       width: 24px;
