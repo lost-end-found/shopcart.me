@@ -13,7 +13,7 @@
         class="u-p"
         @click="$store.dispatch('modal/deleteModal')"
       >
-        X
+        <img src="@/assets/icons/close.svg" alt="close modal">
       </div>
     </div>
     <div class="u-p u-text-left">
@@ -90,11 +90,13 @@ export default {
       })
     },
     updateCategory (e) {
-      db.ref(`${this.$store.state.user.user.uid}/items`)
-        .child(this.item['.key'])
-        .update({
-          category: e.name
-        })
+      if (e) {
+        db.ref(`${this.$store.state.user.user.uid}/items`)
+          .child(this.item['.key'])
+          .update({
+            category: e.name
+          })
+      }
     },
     deleteItem () {
       const confirmDelete = confirm('Are you sure you want to delete this item?')

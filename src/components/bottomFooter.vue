@@ -6,9 +6,6 @@
     <router-link to="/basket">
       Bakset
     </router-link>
-    <router-link to="/settings">
-      Settings
-    </router-link>
   </div>
 </template>
 

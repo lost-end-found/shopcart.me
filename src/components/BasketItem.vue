@@ -28,7 +28,7 @@
             @click.native="emitRemove();"
           >
             <img
-              style="color: #fff; width: 16px"
+              width="24px"
               src="@/assets/icons/trash.svg"
               alt="trash icon"
             >
@@ -38,13 +38,21 @@
             class="u-mr"
             @click.native="emitMinus();"
           >
-            -
+            <img
+              src="@/assets/icons/minus-white.svg"
+              width="24px"
+              alt="decrease amount"
+            >
           </sas-button>
           <sas-button
             v-if="hasButtons"
             @click.native="emitPlus();"
           >
-            +
+            <img
+              src="@/assets/icons/plus-white.svg"
+              width="24px"
+              alt="increase amount"
+            >
           </sas-button>
         </div>
       </div>

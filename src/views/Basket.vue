@@ -21,15 +21,18 @@
           @emitRemove="removeItem(item);"
         />
       </li>
+      <li class="c-list__item u-pv">
+        add new
+      </li>
     </ul>
     <button
       :class="{ newItemIsOpen: newItemIsOpen }"
       type="button"
       name="button"
-      class="button_open-new-item"
+      class="c-add"
       @click="newItemIsOpen = !newItemIsOpen;"
     >
-      <span>+</span>
+      <img src="@/assets/icons/plus.svg" alt="add new item">
     </button>
     <addNewItem
       v-if="newItemIsOpen"
@@ -102,17 +105,6 @@ export default {
     }
   },
   methods: {
-    onPan (event) {
-      if (event.deltaX < -80) {
-        event.target.closest('.js-item').classList.add('remove')
-      } else {
-        event.target.closest('.js-item').classList.remove('remove')
-      }
-      event.target.closest('.js-item').style.cssText = `transform: translateX(${event.deltaX * 0.5}px)`
-    },
-    onPanEnd (event) {
-      event.target.closest('.js-item').style.cssText = ''
-    },
     plus (item) {
       db.ref(`${this.uid}/items`)
         .child(item['.key'])
@@ -144,7 +136,7 @@ export default {
     padding: 0;
     margin: 0;
   }
-  .button_open-new-item {
+  .c-add {
     font-size: 20px;
     width: 60px;
     height: 60px;
@@ -159,8 +151,11 @@ export default {
     z-index: 99;
     left: 50%;
     transform: translateX(-50%);
-    transition: all ease 0.4s;
+    transition: all ease-out  200ms;
     box-shadow: 1px 0px 10px 5px rgba(#000, 0.1);
+    img {
+      width: 24px;
+    }
     &:focus {
       outline: none;
     }
