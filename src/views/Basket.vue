@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-bar
-    class="basket"
-  >
+  <div class="basket">
     <ul>
       <li
         v-for="(item, index) in items"
@@ -42,7 +39,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import BasketItem from '@/components/BasketItem'
 import addNewItem from '@/components/addNewItem'
 
@@ -132,6 +128,7 @@ export default {
 <style media="screen" lang="scss">
 .basket {
   height: calc(100vh - 120px);
+  overflow: auto;
   ul {
     padding: 0;
     margin: 0;

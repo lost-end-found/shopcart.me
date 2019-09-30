@@ -69,7 +69,7 @@ main {
     background: #fff;
   }
   padding-top: 60px;
-  // padding-bottom: 60px;
+  padding-bottom: 60px;
 }
 
 footer {

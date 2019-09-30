@@ -7,12 +7,9 @@ import 'firebase/auth'
 import * as firebaseCSS from 'firebaseui/dist/firebaseui.css'
 import './scss/main.scss'
 
-import Vuebar from 'vuebar'
 import vSelect from 'vue-select'
 
 import 'vue-select/dist/vue-select.css'
-
-Vue.use(Vuebar)
 
 Vue.component('v-select', vSelect)
 
