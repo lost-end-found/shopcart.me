@@ -4,8 +4,9 @@
       <div />
       <input
         v-model="name"
-        class="o-type-h1 u-text-center"
+        class="o-type-item u-text-center"
         :placeholder="item.name"
+        style="max-width: calc(100% - 50px); width: 100%"
         @blur="editName;"
         @keydown.enter="editName"
       >

@@ -144,7 +144,7 @@ export default {
     border-radius: 30px;
     border: none;
     position: fixed;
-    bottom: 30px;
+    bottom: 10px;
     z-index: 99;
     left: 50%;
     transform: translateX(-50%);
