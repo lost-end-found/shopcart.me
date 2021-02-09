@@ -11,7 +11,10 @@
     <main class="fixed z-10 top-14 bottom-14 left-0 w-full">
       <router-view class="bg-white" />
     </main>
-    <footer class="fixed flex h-14 bottom-0 left-0 bg-black text-white w-full items-center justify-center" v-if="$route.meta.requiresAuth">
+    <footer
+      v-if="$route.meta.requiresAuth"
+      class="fixed flex h-14 bottom-0 left-0 bg-black text-white w-full items-center justify-center"
+    >
       <bottom-nav />
     </footer>
     <SASModal />

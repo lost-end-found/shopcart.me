@@ -29,7 +29,10 @@
       class="c-add"
       @click="newItemIsOpen = !newItemIsOpen;"
     >
-      <img src="@/assets/icons/plus.svg" alt="add new item">
+      <img
+        src="@/assets/icons/plus.svg"
+        alt="add new item"
+      >
     </button>
     <addNewItem
       v-if="newItemIsOpen"
