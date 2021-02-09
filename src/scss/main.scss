@@ -36,6 +36,12 @@
 
 @import 'components/basket';
 
+
 .vs__dropdown-menu {
   max-height: 100px !important;
 }
+
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
