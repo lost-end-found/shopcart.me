@@ -40,7 +40,7 @@
 
 <script>
 import BasketItem from '@/components/BasketItem'
-import addNewItem from '@/components/addNewItem'
+import addNewItem from '@/components/NewItem'
 
 import { mapGetters, mapState } from 'vuex'
 import { db } from '@/firebase'
