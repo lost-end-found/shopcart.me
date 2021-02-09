@@ -13,7 +13,7 @@
       class="menu"
     >
       <div
-        class="burger-overflow"
+        class="fixed top-0 left-0 h-screen w-screen"
         @click="burgerOpen = !burgerOpen"
       />
       <router-link
@@ -77,13 +77,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.burger-overflow {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-}
 .burger {
   cursor: pointer;
   width: 60px;

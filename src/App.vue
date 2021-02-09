@@ -1,17 +1,17 @@
 <template>
   <div id="app">
-    <header>
+    <header class="fixed flex justify-center items-center w-full top-0 left-0 h-14 bg-black text-white">
       <router-link
         :to="{ path: '/' }"
         class="title"
       >
-        <h1>Shopping App</h1>
+        <h1>shopcart.me</h1>
       </router-link>
     </header>
-    <main>
-      <router-view class="app-body" />
+    <main class="fixed z-10 top-14 bottom-14 left-0 w-full">
+      <router-view class="bg-white" />
     </main>
-    <footer v-if="$route.meta.requiresAuth">
+    <footer class="fixed flex h-14 bottom-0 left-0 bg-black text-white w-full items-center justify-center" v-if="$route.meta.requiresAuth">
       <bottom-nav />
     </footer>
     <SASModal />
@@ -30,14 +30,10 @@ export default {
 </script>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700&display=swap&subset=greek');
-body, html {
-  margin: 0;
-  padding: 0;
-  font-family: "Ubuntu Mono", monospace;
-}
+@import url("https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700&display=swap&subset=greek");
+body,
 html {
-  overflow-y: hidden;
+  font-family: "Ubuntu Mono", monospace;
 }
 #app {
   font-family: "Ubuntu Mono", monospace;
@@ -48,42 +44,7 @@ html {
     font-family: "Ubuntu Mono", monospace;
   }
 }
-header {
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 60px;
-  background: #000;
-}
 
-header a {
-  font-weight: bold;
-  color: #fff;
-}
-main {
-  .app-body {
-    background: #fff;
-  }
-  padding-top: 60px;
-  padding-bottom: 60px;
-}
-
-footer {
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 60px;
-  background: #000;
-  color: #fff;
-}
 button {
   cursor: pointer;
 }

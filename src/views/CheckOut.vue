@@ -12,6 +12,7 @@
           :key="index"
           :name="item.name"
           :amount="item.amount"
+          :item="item"
           has-remove-button
           @emitRemove="removeItem(item['.key']);"
         />

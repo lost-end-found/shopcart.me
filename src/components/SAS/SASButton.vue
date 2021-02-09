@@ -113,8 +113,6 @@ export default {
   text-align: center;
   min-height: 42px;
   min-width: 42px;
-  margin: 0;
-  padding: 0;
   line-height: 22px;
 
   &:hover {

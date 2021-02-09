@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="bottom-nav">
+  <div class="bottom-nav flex w-full h-full items-center">
     <router-link to="/checkOut">
       Check Out
     </router-link>
@@ -15,12 +15,7 @@ export default {}
 
 <style lang="scss">
 .bottom-nav {
-  width: 100%;
-  height: 100%;
-  display: flex;
   justify-content: space-around;
-  align-items: center;
-
   a {
     color: #fff;
     display: block;
