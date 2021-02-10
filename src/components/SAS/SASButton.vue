@@ -5,6 +5,7 @@
     :class="classes"
     :disabled="disabled"
     :type="computedAction"
+    class="shadow-md hover:shadow-sm focus:shadow-sm"
   >
     <slot />
   </component>
@@ -105,7 +106,6 @@ export default {
 
 .c-button--default {
   background: #000;
-  box-shadow: 0 2px 6px 0 rgba(0,0,0,0.04), 0 1px 2px 0 rgba(0,0,0,0.04), 0 1px 2px 0 rgba(0,0,0,0.18);
   border-radius: 8px;
   font-size: 16px;
   color: #FFFFFF;
@@ -117,13 +117,10 @@ export default {
 
   &:hover {
     background: rgba(#000, 0.8);
-    box-shadow: 0 1px 0 0 rgba(22, 29, 37, 0.05);
   }
 
   &:active {
     background: rgba(#000, 0.95);
-    box-shadow: inset 0 1px 1px 0 rgba(99, 115, 129, 0.6),
-    inset 0 1px 4px 0 rgba(99, 115, 129, 0.2);
   }
 
   &.is-disabled {
