@@ -41,6 +41,9 @@
   max-height: 100px !important;
 }
 
+.max-h-screen {
+  max-height: calc(var(--vh, 1vh) * 100) !important;
+}
 
 @import "tailwindcss/base";
 @import "tailwindcss/components";

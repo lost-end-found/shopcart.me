@@ -29,7 +29,7 @@
       :class="{ newItemIsOpen: newItemIsOpen }"
       type="button"
       name="button"
-      class="w-10 h-10 z-10 c-add"
+      class="w-14 h-14 z-10 c-add fixed bottom-3"
       @click="newItemIsOpen = !newItemIsOpen"
     >
       <img
@@ -134,8 +134,6 @@ export default {
 <style media="screen" lang="scss">
 .c-add {
   font-size: 20px;
-  width: 60px;
-  height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -15,8 +15,8 @@
         </h1>
       </router-link>
     </header>
-    <main class="fixed z-10 top-14 bottom-14 left-0 w-full pb-4 overflow-scroll">
-      <router-view class="bg-transparent" />
+    <main class="fixed z-10 top-14 bottom-0 pb-14 left-0 w-full overflow-visible">
+      <router-view class="bg-transparent overflow-scroll" />
     </main>
     <footer
       v-if="$route.meta.requiresAuth"
@@ -39,11 +39,11 @@ export default {
   mounted () {
     let vh = window.innerHeight * 0.01
     // Then we set the value in the --vh custom property to the root of the document
-    document.documentElement.style.setProperty('--vh', `${vh}px`)
+    document.body.style.setProperty('--vh', `${vh}px`)
     window.addEventListener('resize', () => {
       // We execute the same script as before
       let vh = window.innerHeight * 0.01
-      document.documentElement.style.setProperty('--vh', `${vh}px`)
+      document.body.style.setProperty('--vh', `${vh}px`)
     })
   }
 }
