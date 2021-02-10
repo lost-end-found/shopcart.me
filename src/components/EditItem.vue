@@ -14,7 +14,10 @@
         class="u-p"
         @click="$store.dispatch('modal/deleteModal')"
       >
-        <img src="@/assets/icons/close.svg" alt="close modal">
+        <img
+          src="@/assets/icons/close.svg"
+          alt="close modal"
+        >
       </div>
     </div>
     <div class="u-p u-text-left">
@@ -29,7 +32,7 @@
       <textarea
         ref="refDescription"
         v-model="description"
-        class="o-type-label u-color-grey"
+        class="o-type-label text-gray-500"
         placeholder="Add description here"
         @blur="editDescription"
         @keydown.prevent.enter="editDescription"

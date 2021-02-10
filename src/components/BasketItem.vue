@@ -1,8 +1,8 @@
 <template lang="html">
-  <div class="flex items-center c-basket__item">
+  <div class="flex items-center c-basket__item h-14">
     <div class="o-media">
       <div
-        class="o-media__fixed"
+        class="o-media__fixed text-center"
         style="width: 44px"
       >
         <span class="o-type-item">{{ amount }}</span>
@@ -11,11 +11,11 @@
         class="o-media__fluid"
         @click="editItem(item)"
       >
-        <div class="text-left o-type-item">
+        <div class="text-left text-base">
           {{ name }}
         </div>
-        <div class="text-left o-type-label u-color-light-grey">
-          {{ category }}
+        <div class="text-left text-xs text-gray-400">
+          {{ item.category }}
         </div>
       </div>
       <div class="o-media__fixed">
@@ -28,8 +28,7 @@
             @click.native="emitRemove();"
           >
             <img
-              width="24px"
-              class="mx-auto"
+              class="mx-auto w-6"
               src="@/assets/icons/trash.svg"
               alt="trash icon"
             >
@@ -42,7 +41,7 @@
             <img
               src="@/assets/icons/minus-white.svg"
               width="24px"
-              class="mx-auto"
+              class="mx-auto w-6"
               alt="decrease amount"
             >
           </sas-button>
@@ -52,8 +51,7 @@
           >
             <img
               src="@/assets/icons/plus-white.svg"
-              width="24px"
-              class="mx-auto"
+              class="mx-auto w-6"
               alt="increase amount"
             >
           </sas-button>
@@ -126,7 +124,6 @@ export default {
 <style lang="scss">
 .c-basket {
   &__item {
-    height: 60px;
     background: rgba(255, 255, 255, 0);
     box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.08);
   }

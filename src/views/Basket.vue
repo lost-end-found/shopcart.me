@@ -18,7 +18,10 @@
           @emitRemove="removeItem(item);"
         />
       </li>
-      <li class="c-list__item u-pv">
+      <li
+        class="c-list__item pl-11 text-base py-4 border-b"
+        @click="newItemIsOpen = !newItemIsOpen"
+      >
         add new
       </li>
     </ul>

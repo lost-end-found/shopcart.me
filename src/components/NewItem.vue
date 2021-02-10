@@ -1,11 +1,12 @@
 <template lang="html">
-  <div class="newItem">
-    <div class="newItem_container">
+  <div class="newItem bottom-14 w-full left-0 fixed flex justify-center items-center">
+    <div class="p-4 bg-black rounded-md shadow-lg">
       <input
         ref="NewItem"
         v-model="addNewItem"
         type="text"
         name=""
+        class="rounded-md"
         autofocus
         placeholder="Start here..."
         @keydown.esc="closeNewItem();"
@@ -14,6 +15,7 @@
       <button
         type="button"
         name="button"
+        class="bg-black transition-colors border-white border-2 border-solid rounded-md mt-4"
         @click="addItem(), closeNewItem();"
       >
         Add new item
@@ -53,22 +55,11 @@ export default {
 
 <style lang="scss">
 .newItem {
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  bottom: 60px;
-  left: 0;
-  width: 100%;
-  height: calc(100% - 60px);
+  height: calc(100% - 56px);
   background: rgba(#000, 0.8);
   z-index: 9;
   * {
     display: block;
-  }
-  &_container {
-    background: #000;
-    padding: 1rem;
   }
   input {
     min-width: 300px;
@@ -77,11 +68,9 @@ export default {
   }
   button {
     cursor: pointer;
-    background: #000;
     border: 2px solid #fff;
     color: #fff;
     width: 100%;
-    margin: 1rem 0;
     padding: 0.75rem 1rem;
     font-size: 1rem;
     &:hover {
