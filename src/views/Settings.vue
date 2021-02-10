@@ -8,7 +8,7 @@
 
 <script>
 import firebase from 'firebase/app'
-import auth from 'firebase/auth'
+import 'firebase/auth'
 
 export default {
   name: 'Hello',

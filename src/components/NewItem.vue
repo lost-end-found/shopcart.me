@@ -55,7 +55,7 @@ export default {
 
 <style lang="scss">
 .newItem {
-  height: calc(100% - 56px);
+  height: calc(var(--vh, 1vh) * 100);
   background: rgba(#000, 0.8);
   z-index: 9;
   * {
