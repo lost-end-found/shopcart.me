@@ -1,5 +1,5 @@
 <template lang="html">
-  <div>
+  <div class="max-h-full">
     <transition-group
       name="list"
       tag="ul"

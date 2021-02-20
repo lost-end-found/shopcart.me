@@ -15,7 +15,7 @@
         </h1>
       </router-link>
     </header>
-    <main class="fixed z-10 top-14 bottom-0 pb-14 left-0 w-full overflow-visible">
+    <main class="fixed z-10 top-14 bottom-14 left-0 w-full overflow-visible">
       <router-view class="bg-transparent overflow-scroll" />
     </main>
     <footer
