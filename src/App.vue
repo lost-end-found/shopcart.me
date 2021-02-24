@@ -4,15 +4,31 @@
     class="font-mono max-h-screen fixed top-0 left-0 right-0 bottom-0"
   >
     <header
-      class="fixed flex justify-center items-center w-full top-0 left-0 h-14 bg-black text-white"
+      class="fixed w-full top-0 left-0 h-14 bg-black text-white"
     >
       <router-link
         :to="{ path: '/' }"
-        class="title"
+        class="text-lg absolute left-1/2 transform -translate-x-1/2 top-4"
       >
         <h1 class="text-xl">
           shopcart.me
         </h1>
+      </router-link>
+      <router-link :to="{ name: 'settings'}">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          class="w-6  absolute right-4 top-4"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+          />
+        </svg>
       </router-link>
     </header>
     <main class="fixed z-10 top-14 bottom-14 left-0 w-full overflow-visible">
