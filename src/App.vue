@@ -32,7 +32,7 @@
       </router-link>
     </header>
     <main class="fixed z-10 top-14 bottom-14 left-0 w-full overflow-visible">
-      <router-view class="bg-transparent overflow-scroll" />
+      <router-view class="bg-transparent overflow-y-auto" />
     </main>
     <footer
       v-if="$route.meta.requiresAuth"
