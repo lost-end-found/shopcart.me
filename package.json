@@ -14,7 +14,7 @@
     "firebase": "^6.3.5",
     "firebaseui": "^4.1.0",
     "iotacss": "^1.6.0",
-    "postcss": "^7",
+    "postcss": "^8",
     "postcss-import": "^14.0.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "vue": "^2.6.10",
