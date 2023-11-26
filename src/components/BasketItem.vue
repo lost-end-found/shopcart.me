@@ -1,16 +1,10 @@
-<template lang="html">
-  <div class="flex items-center c-basket__item h-14">
-    <div class="o-media">
-      <div
-        class="o-media__fixed text-center"
-        style="width: 44px"
-      >
+<template >
+  <div class="flex items-center bg-white border border-gray-200/40 shadow h-14 pr-4 rounded-md">
+    <div class="flex space-x-3 justify-between w-full">
+      <div class="shrink-0 text-center w-11">
         <span class="o-type-item">{{ amount }}</span>
       </div>
-      <div
-        class="o-media__fluid"
-        @click="editItem(item)"
-      >
+      <div class="flex-grow flex justify-center flex-col" @click="editItem()">
         <div class="text-left text-base">
           {{ name }}
         </div>
@@ -18,114 +12,147 @@
           {{ item.category }}
         </div>
       </div>
-      <div class="o-media__fixed">
-        <div
-          class="flex justify-items-end items-center"
-        >
-          <sas-button
+      <div class="shrink-0">
+        <div class="flex justify-items-end items-center">
+          <SasButton
             v-if="hasRemoveButton"
             name="button"
-            @click.native="emitRemove();"
+            @click="emitRemove()"
           >
             <img
               class="mx-auto w-6"
-              src="@/assets/icons/trash.svg"
+              src="../assets/icons/trash.svg"
               alt="trash icon"
-            >
-          </sas-button>
-          <sas-button
-            v-if="hasButtons"
-            class="mr-2"
-            @click.native="emitMinus();"
-          >
+            />
+          </SasButton>
+          <SasButton v-if="hasButtons" class="mr-2" @click="emitMinus()">
             <img
-              src="@/assets/icons/minus-white.svg"
+              src="../assets/icons/minus-white.svg"
               width="24px"
               class="mx-auto w-6"
               alt="decrease amount"
-            >
-          </sas-button>
-          <sas-button
-            v-if="hasButtons"
-            @click.native="emitPlus();"
-          >
+            />
+          </SasButton>
+          <SasButton v-if="hasButtons" @click="emitPlus()">
             <img
-              src="@/assets/icons/plus-white.svg"
+              src="../assets/icons/plus-white.svg"
               class="mx-auto w-6"
               alt="increase amount"
-            >
-          </sas-button>
+            />
+          </SasButton>
         </div>
       </div>
     </div>
+    <DialogRoot v-model:open="editItemOpen">
+      <DialogTrigger />
+      <DialogPortal>
+        <DialogOverlay class="DialogOverlay" />
+        <Transition name="slide-up">
+          <DialogContent class="DialogContent">
+            <DialogTitle />
+            <DialogDescription />
+            <EditItem :item="item" @closeEditItem="editItem" />
+            <DialogClose class="absolute top-2 right-2" />
+          </DialogContent>
+        </Transition>
+      </DialogPortal>
+    </DialogRoot>
   </div>
 </template>
 
-<script>
-import SasButton from '@/components/SAS/SASButton'
-import EditItem from '@/components/EditItem'
+<script setup>
+import { defineProps, computed, watch, ref, toRefs } from "vue";
+import SasButton from "./SAS/SASButton.vue";
+import EditItem from "./EditItem.vue";
+import {
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogOverlay,
+  DialogPortal,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+} from "radix-vue";
 
-export default {
-  components: {
-    SasButton
+const props = defineProps({
+  item: {
+    type: Object,
+    required: true,
   },
-  props: {
-    item: {
-      type: Object,
-      required: true
-    },
-    name: {
-      type: String,
-      required: true
-    },
-    amount: {
-      type: Number,
-      default: null
-    },
-    category: {
-      type: String,
-      default: 'Uncategorized'
-    },
-    hasButtons: {
-      type: Boolean,
-      default: false
-    },
-    hasRemoveButton: {
-      type: Boolean,
-      default: false
-    }
+  name: {
+    type: String,
+    required: true,
   },
-  computed: {
-    isHomePage: function isHomePage () {
-      return this.$route.path === '/basket'
-    }
+  amount: {
+    type: Number,
+    default: null,
   },
-  methods: {
-    editItem (item) {
-      this.$store.dispatch('modal/addModal', {
-        content: EditItem,
-        props: {
-          item: item
-        }
-      })
-    },
-    emitMinus () {
-      this.$emit('emitMinus')
-    },
-    emitPlus () {
-      this.$emit('emitPlus')
-    },
-    emitRemove () {
-      this.$emit('emitRemove')
-    }
-  }
-}
+  category: {
+    type: String,
+    default: "Uncategorized",
+  },
+  hasButtons: {
+    type: Boolean,
+    default: false,
+  },
+  hasRemoveButton: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const editItemOpen = ref(false);
+
+const { item, name, amount, category, hasButtons, hasRemoveButton } =
+  toRefs(props);
+
+const isHomePage = computed(() => {
+  return $route.path === "/basket";
+});
+
+const editItem = () => {
+  editItemOpen.value = !editItemOpen.value;
+};
+
+const emit = defineEmits(["emitMinus", "emitPlus", "emitRemove"]);
+
+const emitMinus = () => {
+  emit("emitMinus");
+};
+
+const emitPlus = () => {
+  emit("emitPlus");
+};
+
+const emitRemove = () => {
+  emit("emitRemove");
+};
 </script>
-<style lang="scss">
-.c-basket {
-  &__item {
-    background: rgba(255, 255, 255, 0);
-    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.08);
-  }
+<style scoped>
+/* styles.css */
+.DialogOverlay {
+  background: rgba(0 0 0 / 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  place-items: center;
+  overflow-y: auto;
+}
+
+.DialogContent {
+  @apply bg-white rounded-t-lg overflow-hidden w-full min-w-min max-w-md z-10 fixed bottom-0 left-1/2 transform -translate-x-1/2;
+}
+.slide-up-enter-active,
+.slide-up-leave-active {
+  @apply transition-all duration-300 transform translate-y-0;
+}
+
+.slide-up-enter-from,
+.slide-up-leave-to {
+  @apply transition-all duration-300 transform translate-y-full;
 }
 </style>

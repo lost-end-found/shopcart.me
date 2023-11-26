@@ -47,7 +47,7 @@
 <script>
 import {
   firebaseApp
-} from '@/firebase'
+} from '../firebase'
 const db = firebaseApp.database()
 var categories = db.ref('categories')
 

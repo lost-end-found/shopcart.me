@@ -35,7 +35,7 @@
 <script>
 import {
   firebaseApp
-} from '@/firebase'
+} from '../firebase'
 const db = firebaseApp.database()
 var itemsRef = db.ref('items')
 export default {

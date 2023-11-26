@@ -1,4 +1,4 @@
-<template lang="html">
+<template >
   <div>
     <section>
       <h3>Forgot your password?</h3>

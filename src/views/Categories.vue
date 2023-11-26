@@ -1,4 +1,4 @@
-<template lang="html">
+<template >
   <section>
     <basket-item
       v-for="item in items"
@@ -15,7 +15,7 @@
 import BasketItem from '@/components/BasketItem.vue'
 import {
   firebaseApp
-} from '@/firebase'
+} from '../firebase'
 const db = firebaseApp.database()
 var categories = db.ref('items')
 

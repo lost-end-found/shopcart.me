@@ -74,7 +74,7 @@
   </div>
 </template>
 <script>
-import { firebaseApp } from '@/firebase'
+import { firebaseApp } from '../firebase'
 const db = firebaseApp.database()
 var itemsRef = db.ref('items')
 

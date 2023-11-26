@@ -1,22 +1,30 @@
-<template lang="html">
-  <div class="newItem bottom-14 w-full left-0 fixed flex justify-center items-center">
+<template >
+  <div
+    class="newItem bottom-14 w-full left-0 fixed flex justify-center items-center"
+  >
     <div class="p-4 bg-black rounded-md shadow-lg">
       <input
-        ref="NewItem"
+        ref="newItemElement"
         v-model="addNewItem"
         type="text"
         name=""
         class="rounded-md"
         autofocus
         placeholder="Start here..."
-        @keydown.esc="closeNewItem();"
-        @keydown.enter="addItem(), closeNewItem();"
-      >
+        @keydown.esc="closeNewItem()"
+        @keydown.enter="addItem(newItem), closeNewItem()"
+      />
+      <ul v-if="$v.addNewItem.$error" class="space-y-2 mt-2">
+        <li class="text-red-500 text-xs" v-for="(error, index) in $v.addNewItem.$errors" :key="index">
+          {{ error.$message }}
+        </li>
+
+      </ul>
       <button
         type="button"
         name="button"
         class="bg-black transition-colors border-white border-2 border-solid rounded-md mt-4"
-        @click="addItem(), closeNewItem();"
+        @click="addItem(newItem)"
       >
         Add new item
       </button>
@@ -24,33 +32,60 @@
   </div>
 </template>
 
-<script>
-import store from '../store'
-import { db } from '@/firebase'
+<script setup>
+import { db } from "../firebase";
+import { getCurrentUser, useDocument, useCollection } from "vuefire";
+import { ref, onMounted, computed } from "vue";
+import { collection, doc, addDoc, getDoc } from "firebase/firestore";
+import { useVuelidate } from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
 
-export default {
-  data: () => ({
-    addNewItem: ''
-  }),
-  mounted () {
-    // do something after mounting vue instance
-    this.$refs.NewItem.focus()
-  },
-  methods: {
-    addItem () {
-      db.ref(`${store.state.user.user.uid}/items`).push({
-        name: this.addNewItem,
-        category: 'Uncategorized',
-        amount: 0,
-        description: ''
-      })
-      this.addNewItem = ''
-    },
-    closeNewItem () {
-      this.$emit('closeNewItem')
-    }
+const rules = {
+  addNewItem: {
+    required
   }
 }
+
+const user = await getCurrentUser();
+const uid = user.uid;
+
+const addNewItem = ref("");
+
+const $v = useVuelidate(rules, addNewItem)
+
+const newItemElement = ref(null);
+const docRef = doc(db, "items", uid);
+const docSnap = await getDoc(docRef);
+const itemsCollection = collection(db, "items", uid, "items");
+
+// Function to add an item to the collection
+const addItem = async (item) => {
+  $v.value.addNewItem.$touch();
+  if ($v.value.addNewItem.$anyError) {
+    return
+  }
+  await addDoc(itemsCollection, item);
+  closeNewItem()
+};
+
+const emit = defineEmits(["closeNewItem"]);
+
+// Example usage
+const newItem = computed(() => {
+  return {
+    name: addNewItem.value,
+    category: "Uncategorized",
+    amount: 0,
+    description: "",
+  };
+});
+
+const closeNewItem = () => {
+  emit("closeNewItem");
+};
+onMounted(() => {
+  newItemElement.value.focus();
+});
 </script>
 
 <style lang="scss">
