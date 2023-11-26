@@ -1,21 +1,20 @@
-import Vue from 'vue'
-// import VueFire from 'vuefire'
-import * as firebase from 'firebase/app'
-import 'firebase/database'
+import { initializeApp } from 'firebase/app'
+import { getFirestore } from 'firebase/firestore'
+import { getAuth } from "firebase/auth";
 
-import { rtdbPlugin } from 'vuefire'
-
-Vue.use(rtdbPlugin)
 
 const config = {
-  apiKey: 'AIzaSyCs2IdLfd7mDbcPHhsOMY0u_2KZIiwriic',
-  authDomain: 'shopping-app-e063d.firebaseapp.com',
-  databaseURL: 'https://shopping-app-e063d.firebaseio.com',
-  projectId: 'shopping-app-e063d',
-  storageBucket: 'shopping-app-e063d.appspot.com',
-  messagingSenderId: '167034361296'
+  apiKey: "AIzaSyCRc4eXyIunjFOnlkVKrTh4VN2u4o2RIb8",
+  authDomain: "shopping-app-me.firebaseapp.com",
+  projectId: "shopping-app-me",
+  storageBucket: "shopping-app-me.appspot.com",
+  messagingSenderId: "478988805765",
+  appId: "1:478988805765:web:4c5eea6f8715c22ceb2bec",
+  measurementId: "G-T0Q8TEQGRC"
 }
-const firebaseApp = firebase.initializeApp(config)
-const db = firebaseApp.database()
 
-export { firebaseApp, db }
+const firebaseApp = initializeApp(config)
+const db = getFirestore(firebaseApp)
+const auth = getAuth(firebaseApp)
+
+export { firebaseApp, db, auth }

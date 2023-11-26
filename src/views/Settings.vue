@@ -1,27 +1,30 @@
 <template>
   <div class="settings">
-    <button @click="logout">
+    <button @click="logout()">
       Logout
     </button>
   </div>
 </template>
 
-<script>
-import firebase from 'firebase/app'
-import 'firebase/auth'
+<script setup>
+import { auth } from '../firebase';
+import { useRouter } from 'vue-router';
+import {
+  signOut,
+} from 'firebase/auth'
 
-export default {
-  name: 'Hello',
-  methods: {
-    logout: function () {
-      firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          this.$router.replace('login')
-        })
-    }
-  }
+const router = useRouter()
+
+const logout = () => {
+  signOut(auth)
+  .then(() => {
+    console.log('Signed out')
+    router.push('/')
+  })
+  .catch((reason) => {
+    console.error('Failed sign', reason)
+    error.value = reason
+  })
 }
 </script>
 

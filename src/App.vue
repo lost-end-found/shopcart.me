@@ -32,10 +32,12 @@
       </router-link>
     </header>
     <main class="fixed z-10 top-14 bottom-14 left-0 w-full overflow-visible">
+      <Suspense>
       <router-view class="bg-transparent overflow-y-auto" />
+    </Suspense>
     </main>
     <footer
-      v-if="$route.meta.requiresAuth"
+      v-if="route.meta.requiresAuth"
       class="fixed flex h-14 bottom-0 left-0 bg-black text-white w-full items-center justify-center"
     >
       <bottom-nav />
@@ -43,24 +45,25 @@
     <SASModal />
   </div>
 </template>
-<script type="text/javascript">
-import bottomNav from '@/components/Footer'
-import SASModal from '@/components/SAS/SASModal'
+<script setup>
+import { useRoute } from 'vue-router'
+import bottomNav from './components/Footer.vue'
+import SASModal from './components/SAS/SASModal.vue'
+import { onMounted, onBeforeUnmount } from 'vue'
+const route = useRoute()
 
-export default {
-  components: {
-    bottomNav,
-    SASModal
-  },
-  mounted () {
+onMounted(() => {
+  let vh = window.innerHeight * 0.01
+  // Then we set the value in the --vh custom property to the root of the document
+  document.body.style.setProperty('--vh', `${vh}px`)
+  window.addEventListener('resize', () => {
+    // We execute the same script as before
     let vh = window.innerHeight * 0.01
-    // Then we set the value in the --vh custom property to the root of the document
     document.body.style.setProperty('--vh', `${vh}px`)
-    window.addEventListener('resize', () => {
-      // We execute the same script as before
-      let vh = window.innerHeight * 0.01
-      document.body.style.setProperty('--vh', `${vh}px`)
-    })
-  }
-}
+  })
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize')
+})
 </script>

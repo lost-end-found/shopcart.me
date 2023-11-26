@@ -1,67 +1,46 @@
-<template lang="html">
-  <div class="max-h-full">
+<template >
+  <div class="max-h-full p-2">
     <transition-group
       name="list"
       tag="ul"
+      class="space-y-2"
     >
       <li
-        v-for="(item, index) in items.filter(item => item.amount > 0)"
-        :key="`key-${index}`"
+        v-for="item in items.filter(item => item.amount > 0)"
+        :key="item.id"
       >
-        <basket-item
+        <BasketItem
           :key="index"
           :name="item.name"
           :amount="item.amount"
           :item="item"
           has-remove-button
-          @emitRemove="removeItem(item['.key']);"
+          @emitRemove="removeItem(item);"
         />
       </li>
     </transition-group>
   </div>
 </template>
-<script>
-import { db } from '@/firebase'
-import { mapGetters, mapState } from 'vuex'
+<script setup>
+import { db } from '../firebase'
+import { collection, doc, updateDoc } from "firebase/firestore";
+import { getCurrentUser, useCollection } from "vuefire";
+import BasketItem from '../components/BasketItem.vue'
 
-import BasketItem from '@/components/BasketItem'
+const user = await getCurrentUser();
+const uid = user.uid;
 
-export default {
-  components: {
-    BasketItem
-  },
-  data: () => ({
-    items: []
-  }),
-  computed: {
-    ...mapGetters({
-      uid: 'user/uid'
-    }),
-    ...mapState({
-      user: 'user'
-    })
-  },
-  watch: {
-    user: {
-      // call it upon creation too
-      immediate: true,
-      handler (user) {
-        if (user.user.uid) {
-          this.$rtdbBind('items', db.ref(`/${user.user.uid}/items`))
-        }
-      }
-    }
-  },
-  methods: {
-    removeItem (key) {
-      db.ref(`${this.user.user.uid}/items`)
-        .child(key)
-        .update({
-          amount: 0
-        })
-    }
-  }
-}
+const itemsCollection = collection(db, "items", uid, "items");
+const items = useCollection(itemsCollection);
+
+const removeItem = (item) => {
+  item.amount--;
+  const docRef = doc(db, "items", uid, "items", item.id);
+  updateDoc(docRef, {
+    amount: 0,
+  });
+};
+
 </script>
 
 <style lang="scss" scoped>

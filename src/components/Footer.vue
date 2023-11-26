@@ -1,6 +1,6 @@
-<template lang="html">
+<template >
   <div class="bottom-nav flex w-full h-full items-center">
-    <router-link to="/checkOut">
+    <router-link to="/checkout">
       Check Out
     </router-link>
     <router-link to="/basket">

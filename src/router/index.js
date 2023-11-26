@@ -1,19 +1,14 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
+import { getCurrentUser } from 'vuefire'
 import Basket from '../views/Basket.vue'
 import Settings from '../views/Settings.vue'
 import CheckOut from '../views/CheckOut.vue'
-import SignUp from '@/views/SignUp'
+import SignUp from '../views/SignUp.vue'
 
-import store from '@/store'
 
-import * as firebase from 'firebase/app'
-import 'firebase/auth'
 
-Vue.use(Router)
-
-let router = new Router({
-  mode: 'history',
+const router = createRouter({
+  history: createWebHistory(),
   routes: [
     {
       path: '/',
@@ -48,21 +43,34 @@ let router = new Router({
         requiresAuth: true
       }
     },
-    {
-      path: '*',
-      redirect: '/login'
-    }
+    { path: '/(.*)', redirect: '/login' },
   ]
 })
-
-router.beforeEach((to, from, next) => {
-  let currentUser = firebase.auth().currentUser
-  store.dispatch('user/validate', currentUser)
-  let requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-
-  if (requiresAuth && !currentUser) next('login')
-  else if (!requiresAuth && currentUser) next('/basket')
-  else next()
+router.beforeEach(async (to) => {
+  // routes with `meta: { requiresAuth: true }` will check for
+  // the users, others won't
+  if (to.meta.requiresAuth) {
+    const currentUser = await getCurrentUser()
+    // if the user is not logged in, redirect to the login page
+    if (!currentUser) {
+      return {
+        path: '/login',
+        query: {
+          // we keep the current path in the query so we can
+          // redirect to it after login with
+          // `router.push(route.query.redirect || '/')`
+          redirect: to.fullPath,
+        },
+      }
+    }
+  } else {
+    const currentUser = await getCurrentUser()
+    if (currentUser) {
+      return {
+        path: '/basket',
+      }
+    }
+  }
 })
 
 export default router

@@ -1,13 +1,9 @@
 <template>
-  <div class="max-h-full">
-    <ul>
-      <li
-        v-for="(item, index) in items"
-        :key="index"
-        class="c-list__item"
-      >
-        <basket-item
-          :key="item.key"
+  <div class="max-h-full p-2">
+    <ul class="space-y-2">
+      <li v-for="(item, index) in items" :key="index">
+        <BasketItem
+          :key="item.id"
           :name="item.name"
           :amount="item.amount"
           :category="item.category"
@@ -26,111 +22,63 @@
       </li>
     </ul>
     <button
-      :class="{ newItemIsOpen: newItemIsOpen }"
       type="button"
       name="button"
-      class="w-14 h-14 z-10 c-add fixed bottom-3"
+      class="w-14 h-14 z-10 fixed bottom-3 font-size-20 flex justify-center items-center line-height-60 border-radius-30 border-none position-fixed z-99 left-1/2 rounded-full transform -translate-x-1/2 transition-all ease-out bg-white shadow"
       @click="newItemIsOpen = !newItemIsOpen"
+      :class="{ 'rotate-45': newItemIsOpen }"
     >
-      <img
-        src="@/assets/icons/plus.svg"
-        alt="add new item"
-      >
+      <img class="w-6" src="../assets/icons/plus.svg" alt="add new item" />
     </button>
-    <addNewItem
+    <NewItem
       v-if="newItemIsOpen"
       @closeNewItem="newItemIsOpen = !newItemIsOpen"
     />
   </div>
 </template>
 
-<script>
-import BasketItem from '@/components/BasketItem'
-import addNewItem from '@/components/NewItem'
+<script setup>
+import BasketItem from "../components/BasketItem.vue";
+import NewItem from "../components/NewItem.vue";
+import { db } from "../firebase";
+import { collection, doc, addDoc, getDoc, updateDoc } from "firebase/firestore";
+import { getCurrentUser, useDocument, useCollection } from "vuefire";
+import { ref } from "vue";
 
-import { mapGetters, mapState } from 'vuex'
-import { db } from '@/firebase'
+const user = await getCurrentUser();
+const uid = user.uid;
 
-export default {
-  components: {
-    BasketItem,
-    addNewItem
-  },
-  data: () => ({
-    items: [],
-    categories: [],
-    newItemIsOpen: false
-  }),
-  computed: {
-    ...mapGetters({
-      uid: 'user/uid'
-    }),
-    ...mapState({
-      user: 'user'
-    })
-  },
-  watch: {
-    user: {
-      // call it upon creation too
-      immediate: true,
-      handler (user) {
-        if (user.user.uid) {
-          this.$rtdbBind('items', db.ref(`/${user.user.uid}/items`))
-          db.ref(user.user.uid)
-            .child('categories')
-            .once('value', function (snapshot) {
-              // if data exists
-              if (snapshot.exists()) {
-                // get the ref (in this case /users/2) and update its contents
-              } else {
-                const defaultCategories = [
-                  'Beverages',
-                  'Bread/Bakery',
-                  'Canned/Jarred Goods',
-                  'Dairy',
-                  'Dry/Baking Goods',
-                  'Frozen Foods',
-                  'Meat',
-                  'Produce',
-                  'Cleaners',
-                  'Paper Goods',
-                  'Personal Care',
-                  'Other'
-                ]
-                defaultCategories.forEach(function (category) {
-                  db.ref(`${user.user.uid}/categories`).push({
-                    name: category
-                  })
-                })
-              }
-            })
-        }
-      }
-    }
-  },
-  methods: {
-    plus (item) {
-      db.ref(`${this.uid}/items`)
-        .child(item['.key'])
-        .update({
-          amount: ++item.amount
-        })
-    },
-    minus (item) {
-      if (item.amount > 0) {
-        db.ref(`${this.uid}/items`)
-          .child(item['.key'])
-          .update({
-            amount: --item.amount
-          })
-      }
-    },
-    removeItem (item) {
-      db.ref(`${this.uid}/items`).child(item['.key']).remove()
-    }
+const newItemIsOpen = ref(false);
+
+const itemsCollection = collection(db, "items", uid, "items");
+const items = useCollection(itemsCollection);
+
+const plus = (item) => {
+  item.amount++;
+  const docRef = doc(db, "items", uid, "items", item.id);
+  updateDoc(docRef, {
+    amount: item.amount,
+  });
+};
+
+const minus = (item) => {
+  if (item.amount === 0) {
+    return;
   }
-}
+  item.amount--;
+  const docRef = doc(db, "items", uid, "items", item.id);
+  updateDoc(docRef, {
+    amount: item.amount,
+  });
+};
+
+const removeItem = (item) => {
+  const docRef = doc(db, "items", uid, "items", item.id);
+  deleteDoc(docRef);
+};
+
 </script>
+
 <style media="screen" lang="scss">
 .c-add {
   font-size: 20px;
@@ -157,23 +105,6 @@ export default {
   &.newItemIsOpen {
     transform: translateX(-50%) rotate(45deg);
     transform-origin: center;
-  }
-}
-.js-item {
-  transition: background ease 0.2s;
-  &.remove {
-    li {
-      background: red;
-    }
-    transition: transform ease 100ms !important;
-  }
-  input {
-    color: #fff;
-    float: left;
-    padding-left: 8px;
-    line-height: 48px;
-    background: transparent;
-    border: none;
   }
 }
 </style>
