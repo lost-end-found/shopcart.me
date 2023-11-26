@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "serve": "vite --host"
+    "serve": "vite --host",
+    "build": "vite build"
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.5.7",
