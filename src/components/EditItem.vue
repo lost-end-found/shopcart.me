@@ -47,7 +47,7 @@
                 <SelectItem
                   v-for="(category, index) in categoriesData"
                   :key="index"
-                  class="text-[13px] leading-none text-black rounded-[3px] flex items-center h-[25px] pr-[35px] pl-[25px] relative select-none data-[disabled]:text-mauve8 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-gray-800 data-[highlighted]:text-white"
+                  class="text-[13px] leading-none text-black rounded-[3px] flex items-center h-[25px] pr-[35px] pl-[25px] relative select-none data-[disabled]:text-gray-500 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-gray-800 data-[highlighted]:text-white"
                   :value="category"
                 >
                   <SelectItemIndicator
@@ -60,7 +60,6 @@
                   </SelectItemText>
                 </SelectItem>
               </SelectGroup>
-              <SelectSeparator class="h-[1px] bg-green6 m-[5px]" />
             </SelectViewport>
 
             <SelectScrollDownButton
@@ -99,7 +98,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { getCurrentUser, useDocument, useCollection } from "vuefire";
-
+import { Icon } from "@iconify/vue";
 import {
   SelectContent,
   SelectGroup,
