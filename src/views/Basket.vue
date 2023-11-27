@@ -24,7 +24,7 @@
     <button
       type="button"
       name="button"
-      class="w-14 h-14 z-10 fixed bottom-3 font-size-20 flex justify-center items-center line-height-60 border-radius-30 border-none position-fixed z-99 left-1/2 rounded-full transform -translate-x-1/2 transition-all ease-out bg-white shadow"
+      class="w-14 h-14 z-10 fixed bottom-3 text-xl flex justify-center items-center line-height-60 border-radius-30 border-none position-fixed z-99 left-1/2 rounded-full transform -translate-x-1/2 transition-all ease-out bg-white shadow"
       @click="newItemIsOpen = !newItemIsOpen"
       :class="{ 'rotate-45': newItemIsOpen }"
     >
@@ -41,7 +41,7 @@
 import BasketItem from "../components/BasketItem.vue";
 import NewItem from "../components/NewItem.vue";
 import { db } from "../firebase";
-import { collection, doc, addDoc, getDoc, updateDoc } from "firebase/firestore";
+import { collection, doc, addDoc, getDoc, getDocs, updateDoc } from "firebase/firestore";
 import { getCurrentUser, useDocument, useCollection } from "vuefire";
 import { ref } from "vue";
 
@@ -52,6 +52,41 @@ const newItemIsOpen = ref(false);
 
 const itemsCollection = collection(db, "items", uid, "items");
 const items = useCollection(itemsCollection);
+
+const categoriesCollection = collection(db, "categories", uid, "categories");
+const categories = useCollection(categoriesCollection);
+
+const defaultCategories = [
+  "Beverages",
+  "Bread/Bakery",
+  "Canned/Jarred Goods",
+  "Dairy",
+  "Dry/Baking Goods",
+  "Frozen Foods",
+  "Meat",
+  "Produce",
+  "Cleaners",
+  "Paper Goods",
+  "Personal Care",
+  "Other",
+  "Uncategorized"
+];
+
+// when firebase is ready, check if categories exis
+
+const checkCategories = async () => {
+  const collectionRef = collection(db, "categories", uid, "categories");
+  const collectionSnapshot = await getDocs(collectionRef);
+  if (collectionSnapshot.empty) {
+    defaultCategories.forEach((category) => {
+      addDoc(collectionRef, {
+        name: category,
+      });
+    });
+  }
+};
+
+checkCategories();
 
 const plus = (item) => {
   item.amount++;
@@ -76,35 +111,4 @@ const removeItem = (item) => {
   const docRef = doc(db, "items", uid, "items", item.id);
   deleteDoc(docRef);
 };
-
 </script>
-
-<style media="screen" lang="scss">
-.c-add {
-  font-size: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  line-height: 60px;
-  border-radius: 30px;
-  border: none;
-  position: fixed;
-  bottom: 10px;
-  z-index: 99;
-  left: 50%;
-  transform: translateX(-50%);
-  transition: all ease-out 200ms;
-  background-color: #fff;
-  box-shadow: 1px 0px 10px 5px rgba(#000, 0.1);
-  img {
-    width: 24px;
-  }
-  &:focus {
-    outline: none;
-  }
-  &.newItemIsOpen {
-    transform: translateX(-50%) rotate(45deg);
-    transform-origin: center;
-  }
-}
-</style>
